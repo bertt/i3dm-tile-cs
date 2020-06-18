@@ -1,4 +1,4 @@
-﻿namespace i3dm.tile
+﻿namespace I3dm.Tile
 {
     public static class I3dmWriter
     {

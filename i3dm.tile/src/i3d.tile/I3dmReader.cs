@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace i3dm.tile
+namespace I3dm.Tile
 {
     public static class I3dmReader
     {

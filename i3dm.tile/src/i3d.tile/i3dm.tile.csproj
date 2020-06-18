@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>I3dm.Tile</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

@@ -14,6 +14,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\i3d.tile\i3dm.tile.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="testfixtures\cube.i3dm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
