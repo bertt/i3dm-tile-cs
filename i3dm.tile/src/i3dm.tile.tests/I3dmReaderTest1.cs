@@ -11,16 +11,38 @@ namespace i3dm.tile.tests
         string expectedMagicHeader = "i3dm";
         int expectedVersionHeader = 1;
 
-        [SetUp]
-        public void Setup()
+        [Test]
+        public void TreeTest()
         {
-            i3dmfile = File.OpenRead(@"testfixtures/cube.i3dm");
+            // arrange
+            i3dmfile = File.OpenRead(@"testfixtures/tree.i3dm");
             Assert.IsTrue(i3dmfile != null);
+            // act
+            var i3dm = I3dmReader.ReadI3dm(i3dmfile);
+            Assert.IsTrue(expectedMagicHeader == i3dm.I3dmHeader.Magic);
+            Assert.IsTrue(expectedVersionHeader == i3dm.I3dmHeader.Version);
+            Assert.IsTrue(i3dm.I3dmHeader.GltfFormat == 1);
+            Assert.IsTrue(i3dm.BatchTableJson.Length >= 0);
+            Assert.IsTrue(i3dm.GlbData.Length > 0);
+            Assert.IsTrue(i3dm.FeatureTableBinary.Length == 304);
+            Assert.IsTrue(i3dm.BatchTableJson == "{\"Height\":[20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20]} ");
+            Assert.IsTrue(i3dm.FeatureTableJson == "{\"INSTANCES_LENGTH\":25,\"EAST_NORTH_UP\":true,\"POSITION\":{\"byteOffset\":0}}");
+            Assert.IsTrue(i3dm.FeatureTableBinary.Length == 304);
+            // todo: read the FeatureTableBinary but how?
+
+            var stream = new MemoryStream(i3dm.GlbData);
+            var glb = SharpGLTF.Schema2.ModelRoot.ReadGLB(stream);
+            Assert.IsTrue(glb.Asset.Version.Major == 2.0);
+            Assert.IsTrue(glb.Asset.Generator == "COLLADA2GLTF");
         }
 
+
         [Test]
-        public void Test1()
+        public void CubeTest()
         {
+            // arrange
+            i3dmfile = File.OpenRead(@"testfixtures/cube.i3dm");
+            Assert.IsTrue(i3dmfile != null);
             // act
             var i3dm = I3dmReader.ReadI3dm(i3dmfile);
 
@@ -29,7 +51,6 @@ namespace i3dm.tile.tests
             Assert.IsTrue(expectedVersionHeader == i3dm.I3dmHeader.Version);
             Assert.IsTrue(i3dm.I3dmHeader.GltfFormat == 1);
             Assert.IsTrue(i3dm.BatchTableJson.Length >= 0);
-            Assert.IsTrue(i3dm.GlbData.Length > 0);
             Assert.IsTrue(i3dm.GlbData.Length > 0);
             Assert.IsTrue(i3dm.FeatureTableBinary.Length == 16);
             var expectedFeatureTableBinary = new byte[16];
