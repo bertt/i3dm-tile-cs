@@ -13,6 +13,8 @@ namespace I3dm.Tile
         public int BatchTableJsonByteLength { get; set; }
         public int BatchTableBinaryByteLength { get; set; }
 
+        public int GltfFormat { get; set; }
+
         public I3dmHeader()
         {
             Magic = "b3dm";
@@ -33,6 +35,7 @@ namespace I3dm.Tile
             FeatureTableBinaryByteLength = (int)reader.ReadUInt32();
             BatchTableJsonByteLength = (int)reader.ReadUInt32();
             BatchTableBinaryByteLength = (int)reader.ReadUInt32();
+            GltfFormat = (int)reader.ReadUInt32();
         }
 
         public byte[] AsBinary()
