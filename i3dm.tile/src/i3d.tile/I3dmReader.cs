@@ -1,5 +1,9 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Numerics;
 using System.Text;
+using System.Text.Json;
 
 namespace I3dm.Tile
 {
@@ -17,6 +21,26 @@ namespace I3dm.Tile
 
                 var glbLength = (int)(reader.BaseStream.Length - reader.BaseStream.Position);
                 var glbBuffer = reader.ReadBytes(glbLength);
+                var featureTable = JsonSerializer.Deserialize<FeatureTable>(featureTableJson);
+
+                if (featureTable.Position != null)
+                {
+                    featureTable.Positions = GetVector3(featureTable.InstancesLength, featureTable.Position.byteOffset, featureTableBytes);
+                };
+                if (featureTable.NormalUp != null)
+                {
+                    featureTable.NormalUps = GetVector3(featureTable.InstancesLength, featureTable.NormalUp.byteOffset, featureTableBytes);
+                }
+                if(featureTable.NormalRight != null)
+                {
+                    featureTable.NormalRights = GetVector3(featureTable.InstancesLength, featureTable.NormalRight.byteOffset, featureTableBytes);
+                }
+                if(featureTable.ScaleNonUniForm != null)
+                {
+                    featureTable.ScaleNonUniforms= GetVector3(featureTable.InstancesLength, featureTable.ScaleNonUniForm.byteOffset, featureTableBytes);
+                }
+
+                // todo: batch table ids'... complexity it can be any format like 'UNSIGNED_BYTE' or others
 
                 var i3dm = new I3dm
                 {
@@ -25,10 +49,26 @@ namespace I3dm.Tile
                     FeatureTableJson = featureTableJson,
                     FeatureTableBinary = featureTableBytes,
                     BatchTableJson = batchTableJson,
-                    BatchTableBinary = batchTableBytes
+                    BatchTableBinary = batchTableBytes,
+                    FeatureTable = featureTable
                 };
                 return i3dm;
             }
+        }
+
+        private static List<Vector3> GetVector3(int instances, int offset, byte[] featureTable)
+        {
+            var res = new List<Vector3>();
+            for (var i = 0; i < instances; i++)
+            {
+                var x = BitConverter.ToSingle(featureTable, i * 12 + 0 + offset);
+                var y = BitConverter.ToSingle(featureTable, i * 12 + 4 + offset);
+                var z = BitConverter.ToSingle(featureTable, i * 12 + 8 + offset);
+                var vector = new Vector3(x, y, z);
+                res.Add(vector);
+            }
+
+            return res;
         }
     }
 }

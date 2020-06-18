@@ -27,5 +27,7 @@ namespace I3dm.Tile
         public byte[] BatchTableBinary { get; set; }
         public byte[] GlbData { get; set; }
 
+        public FeatureTable FeatureTable { get; set; }
+
     }
 }
