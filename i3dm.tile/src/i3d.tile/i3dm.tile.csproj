@@ -3,10 +3,22 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>I3dm.Tile</RootNamespace>
+    <Version>0.1</Version>
+    <Authors>Bert Temme</Authors>
+    <Company />
+    <Description>Read/Write instanced 3D Tile models</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/bertt/i3dm-tile-cs</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/bertt/i3dm-tile-cs</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>3dtile gltf</PackageTags>
+    <PackageReleaseNotes>initial release (reading only)</PackageReleaseNotes>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Copyright>Bert Temme</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Text.Json" Version="5.0.0-preview.5.20278.1" />
+    <PackageReference Include="System.Text.Json" Version="4.7.2" />
   </ItemGroup>
 
 </Project>

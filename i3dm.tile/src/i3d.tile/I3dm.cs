@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace I3dm.Tile
+﻿namespace I3dm.Tile
 {
     public class I3dm
     {
@@ -18,7 +16,6 @@ namespace I3dm.Tile
         {
             GlbData = glb;
         }
-
 
         public I3dmHeader I3dmHeader { get; set; }
         public string FeatureTableJson { get; set; }
