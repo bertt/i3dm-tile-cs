@@ -13,6 +13,35 @@ namespace i3dm.tile.tests
         int expectedVersionHeader = 1;
 
         [Test]
+        public void InstancedTexturedTest()
+        {
+            // arrange
+            // source: https://github.com/flywave/go-3dtile/tree/master/data/Textured/instancedTextured.i3dm
+            var i3dmfile = File.OpenRead(@"testfixtures/instancedTextured.i3dm");
+            Assert.IsTrue(i3dmfile != null);
+            // act
+            var i3dm = I3dmReader.ReadI3dm(i3dmfile);
+            Assert.IsTrue(expectedMagicHeader == i3dm.I3dmHeader.Magic);
+            Assert.IsTrue(expectedVersionHeader == i3dm.I3dmHeader.Version);
+            Assert.IsTrue(i3dm.I3dmHeader.GltfFormat == 1);
+            Assert.IsTrue(i3dm.BatchTableJson.Length >= 0);
+            Assert.IsTrue(i3dm.GlbData.Length > 0);
+            Assert.IsTrue(i3dm.FeatureTableJson == "{\"INSTANCES_LENGTH\":1,\"POSITION\":{\"byteOffset\":0}}  ");
+            Assert.IsTrue(i3dm.FeatureTable.InstancesLength == 1);
+            var stream = new MemoryStream(i3dm.GlbData);
+            try
+            {
+                var glb = SharpGLTF.Schema2.ModelRoot.ReadGLB(stream);
+            }
+            catch(SchemaException le)
+            {
+                // we expect schemaexception because no support for gltf1'
+                Assert.IsTrue(le != null);
+                Assert.IsTrue(le.Message == "Unknown version number: 1");
+            }
+        }
+
+        [Test]
         public void InstancedBarrelTest()
         {
             // arrange
@@ -35,7 +64,7 @@ namespace i3dm.tile.tests
             Assert.IsTrue(i3dm.FeatureTableBinary.Length == 496);
             var stream = new MemoryStream(i3dm.GlbData);
             var glb = SharpGLTF.Schema2.ModelRoot.ReadGLB(stream);
-            glb.SaveGLB(@"d:\aaa\barrel.glb");
+            glb.SaveGLB(@"barrel.glb");
         }
 
 
@@ -58,7 +87,7 @@ namespace i3dm.tile.tests
             Assert.IsTrue(i3dm.FeatureTableBinary.Length == 304);
             var stream = new MemoryStream(i3dm.GlbData);
             var glb = SharpGLTF.Schema2.ModelRoot.ReadGLB(stream);
-            glb.SaveGLB(@"d:\aaa\instancedwithbatchtable.glb");
+            glb.SaveGLB(@"instancedwithbatchtable.glb");
         }
 
         [Test]
@@ -80,6 +109,8 @@ namespace i3dm.tile.tests
             Assert.IsTrue(i3dm.FeatureTableBinary.Length == 904);
             var stream = new MemoryStream(i3dm.GlbData);
             var glb = SharpGLTF.Schema2.ModelRoot.ReadGLB(stream);
+            Assert.IsTrue(glb != null);
+            glb.SaveGLB(@"instancedorientation.glb");
         }
 
         [Test]
@@ -136,6 +167,7 @@ namespace i3dm.tile.tests
             var glb = SharpGLTF.Schema2.ModelRoot.ReadGLB(stream);
             Assert.IsTrue(glb.Asset.Version.Major == 2.0);
             Assert.IsTrue(glb.Asset.Generator == "COLLADA2GLTF");
+            glb.SaveGLB(@"tree.glb");
         }
 
 
@@ -162,6 +194,7 @@ namespace i3dm.tile.tests
             var glb = SharpGLTF.Schema2.ModelRoot.ReadGLB(stream);
             Assert.IsTrue(glb.Asset.Version.Major == 2.0);
             Assert.IsTrue(glb.Asset.Generator == "SharpGLTF 1.0.0");
+            glb.SaveGLB(@"cube.glb");
         }
     }
 }
