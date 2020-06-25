@@ -9,7 +9,7 @@ namespace I3dm.Tile
 {
     public static class I3dmReader
     {
-        public static I3dm ReadI3dm(Stream stream)
+        public static I3dm Read(Stream stream)
         {
             using (var reader = new BinaryReader(stream))
             {

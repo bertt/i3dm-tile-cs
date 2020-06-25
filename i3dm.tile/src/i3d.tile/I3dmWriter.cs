@@ -6,7 +6,7 @@ namespace I3dm.Tile
 {
     public static class I3dmWriter
     {
-        public static string WriteI3dm(string path, I3dm i3dm)
+        public static string Write(string path, I3dm i3dm)
         {
             i3dm.FeatureTableJson = i3dm.GetFeatureTableJson();
             var featureTableBinary = new List<byte>();

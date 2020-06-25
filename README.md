@@ -12,25 +12,19 @@ https://www.nuget.org/packages/i3dm.tile/
 
 ## Sample code
 
+Reading i3dm. Supply the i3dm filename.
+
 ```
-var i3dmfile = File.OpenRead(@"testfixtures/tree.i3dm");
-Assert.IsTrue(i3dmfile != null);
-var i3dm = I3dmReader.ReadI3dm(i3dmfile);
-Assert.IsTrue(expectedMagicHeader == i3dm.I3dmHeader.Magic);
-Assert.IsTrue(expectedVersionHeader == i3dm.I3dmHeader.Version);
-Assert.IsTrue(i3dm.I3dmHeader.GltfFormat == 1);
-Assert.IsTrue(i3dm.BatchTableJson.Length >= 0);
-Assert.IsTrue(i3dm.GlbData.Length > 0);
-Assert.IsTrue(i3dm.FeatureTableBinary.Length == 304);
-Assert.IsTrue(i3dm.BatchTableJson == "{\"Height\":[20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20]} ");
-Assert.IsTrue(i3dm.FeatureTableJson == "{\"INSTANCES_LENGTH\":25,\"EAST_NORTH_UP\":true,\"POSITION\":{\"byteOffset\":0}}");
-Assert.IsTrue(i3dm.FeatureTableBinary.Length == 304);
-Assert.IsTrue(i3dm.Positions[0].Equals(new Vector3(1214947.2f, -4736379f, 4081540.8f)));
-var stream = new MemoryStream(i3dm.GlbData);
-var glb = SharpGLTF.Schema2.ModelRoot.ReadGLB(stream);
-Assert.IsTrue(glb.Asset.Version.Major == 2.0);
-Assert.IsTrue(glb.Asset.Generator == "COLLADA2GLTF");
-glb.SaveGLB(@"tree.glb");
+var i3dmfile = File.OpenRead(@"test.i3dm");
+var i3dm = I3dmReader.Read(i3dmfile);
+```
+
+Writing i3dm. Supply the GLB (as byte[]) and instance positions (as list of Vector3)
+
+```
+var i3dm = new I3dm.Tile.I3dm(positions, glb);
+var result = @"test.i3dm";
+I3dmWriter.Write(result, i3dm);
 ```
 
 ## Dependencies
@@ -39,5 +33,7 @@ glb.SaveGLB(@"tree.glb");
 
 ## History
 
-2020-06-22: Initial version - reading i3dm tiles
+2020-06-25 - 0.2: Adding writing i3dm tiles
+
+2020-06-22 - 0.1: Initial version - reading i3dm tiles
 

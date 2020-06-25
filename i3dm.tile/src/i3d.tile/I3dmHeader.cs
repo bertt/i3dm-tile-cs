@@ -25,6 +25,7 @@ namespace I3dm.Tile
             FeatureTableBinaryByteLength = 0;
             BatchTableJsonByteLength = 0;
             BatchTableBinaryByteLength = 0;
+            GltfFormat = 1;
         }
 
         public I3dmHeader(BinaryReader reader)

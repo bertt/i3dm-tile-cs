@@ -20,7 +20,7 @@ namespace i3dm.tile.tests
             var i3dmfile = File.OpenRead(@"testfixtures/instancedAnimated.i3dm");
             Assert.IsTrue(i3dmfile != null);
             // act
-            var i3dm = I3dmReader.ReadI3dm(i3dmfile);
+            var i3dm = I3dmReader.Read(i3dmfile);
             Assert.IsTrue(expectedMagicHeader == i3dm.I3dmHeader.Magic);
             Assert.IsTrue(expectedVersionHeader == i3dm.I3dmHeader.Version);
             Assert.IsTrue(i3dm.I3dmHeader.GltfFormat == 1);
@@ -42,7 +42,7 @@ namespace i3dm.tile.tests
             var i3dmfile = File.OpenRead(@"testfixtures/instancedTextured.i3dm");
             Assert.IsTrue(i3dmfile != null);
             // act
-            var i3dm = I3dmReader.ReadI3dm(i3dmfile);
+            var i3dm = I3dmReader.Read(i3dmfile);
             Assert.IsTrue(expectedMagicHeader == i3dm.I3dmHeader.Magic);
             Assert.IsTrue(expectedVersionHeader == i3dm.I3dmHeader.Version);
             Assert.IsTrue(i3dm.I3dmHeader.GltfFormat == 1);
@@ -71,7 +71,7 @@ namespace i3dm.tile.tests
             var i3dmfile = File.OpenRead(@"testfixtures/barrel.i3dm");
             Assert.IsTrue(i3dmfile != null);
             // act
-            var i3dm = I3dmReader.ReadI3dm(i3dmfile);
+            var i3dm = I3dmReader.Read(i3dmfile);
             Assert.IsTrue(expectedMagicHeader == i3dm.I3dmHeader.Magic);
             Assert.IsTrue(expectedVersionHeader == i3dm.I3dmHeader.Version);
             Assert.IsTrue(i3dm.I3dmHeader.GltfFormat == 1);
@@ -98,7 +98,7 @@ namespace i3dm.tile.tests
             var i3dmfile = File.OpenRead(@"testfixtures/instancedWithBatchTable.i3dm");
             Assert.IsTrue(i3dmfile != null);
             // act
-            var i3dm = I3dmReader.ReadI3dm(i3dmfile);
+            var i3dm = I3dmReader.Read(i3dmfile);
             Assert.IsTrue(expectedMagicHeader == i3dm.I3dmHeader.Magic);
             Assert.IsTrue(expectedVersionHeader == i3dm.I3dmHeader.Version);
             Assert.IsTrue(i3dm.I3dmHeader.GltfFormat == 1);
@@ -120,7 +120,7 @@ namespace i3dm.tile.tests
             var i3dmfile = File.OpenRead(@"testfixtures/instancedOrientation.i3dm");
             Assert.IsTrue(i3dmfile != null);
             // act
-            var i3dm = I3dmReader.ReadI3dm(i3dmfile);
+            var i3dm = I3dmReader.Read(i3dmfile);
             Assert.IsTrue(expectedMagicHeader == i3dm.I3dmHeader.Magic);
             Assert.IsTrue(expectedVersionHeader == i3dm.I3dmHeader.Version);
             Assert.IsTrue(i3dm.I3dmHeader.GltfFormat == 1);
@@ -142,7 +142,7 @@ namespace i3dm.tile.tests
             var i3dmfile = File.OpenRead(@"testfixtures/tree_billboard.i3dm");
             Assert.IsTrue(i3dmfile != null);
             // act
-            var i3dm = I3dmReader.ReadI3dm(i3dmfile);
+            var i3dm = I3dmReader.Read(i3dmfile);
             Assert.IsTrue(expectedMagicHeader == i3dm.I3dmHeader.Magic);
             Assert.IsTrue(expectedVersionHeader == i3dm.I3dmHeader.Version);
             Assert.IsTrue(i3dm.I3dmHeader.GltfFormat == 1);
@@ -174,7 +174,7 @@ namespace i3dm.tile.tests
             var i3dmfile = File.OpenRead(@"testfixtures/tree.i3dm");
             Assert.IsTrue(i3dmfile != null);
             // act
-            var i3dm = I3dmReader.ReadI3dm(i3dmfile);
+            var i3dm = I3dmReader.Read(i3dmfile);
             Assert.IsTrue(expectedMagicHeader == i3dm.I3dmHeader.Magic);
             Assert.IsTrue(expectedVersionHeader == i3dm.I3dmHeader.Version);
             Assert.IsTrue(i3dm.I3dmHeader.GltfFormat == 1);
@@ -200,7 +200,7 @@ namespace i3dm.tile.tests
             var i3dmfile = File.OpenRead(@"testfixtures/cube.i3dm");
             Assert.IsTrue(i3dmfile != null);
             // act
-            var i3dm = I3dmReader.ReadI3dm(i3dmfile);
+            var i3dm = I3dmReader.Read(i3dmfile);
 
             // assert
             Assert.IsTrue(expectedMagicHeader == i3dm.I3dmHeader.Magic);

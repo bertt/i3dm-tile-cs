@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>I3dm.Tile</RootNamespace>
-    <Version>0.1</Version>
+    <Version>0.2</Version>
     <Authors>Bert Temme</Authors>
     <Company />
     <Description>Read/Write instanced 3D Tile models</Description>
