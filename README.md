@@ -25,7 +25,7 @@ Assert.IsTrue(i3dm.FeatureTableBinary.Length == 304);
 Assert.IsTrue(i3dm.BatchTableJson == "{\"Height\":[20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20]} ");
 Assert.IsTrue(i3dm.FeatureTableJson == "{\"INSTANCES_LENGTH\":25,\"EAST_NORTH_UP\":true,\"POSITION\":{\"byteOffset\":0}}");
 Assert.IsTrue(i3dm.FeatureTableBinary.Length == 304);
-Assert.IsTrue(i3dm.FeatureTable.Positions[0].Equals(new Vector3(1214947.2f, -4736379f, 4081540.8f)));
+Assert.IsTrue(i3dm.Positions[0].Equals(new Vector3(1214947.2f, -4736379f, 4081540.8f)));
 var stream = new MemoryStream(i3dm.GlbData);
 var glb = SharpGLTF.Schema2.ModelRoot.ReadGLB(stream);
 Assert.IsTrue(glb.Asset.Version.Major == 2.0);

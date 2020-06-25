@@ -1,4 +1,8 @@
-﻿namespace I3dm.Tile
+﻿using System.Collections.Generic;
+using System.Numerics;
+using System.Text.Json;
+
+namespace I3dm.Tile
 {
     public class I3dm
     {
@@ -7,13 +11,14 @@
             I3dmHeader = new I3dmHeader();
             FeatureTableJson = string.Empty;
             BatchTableJson = string.Empty;
-            FeatureTableJson = "{\"BATCH_LENGTH\":0}  ";
             FeatureTableBinary = new byte[0];
             BatchTableBinary = new byte[0];
         }
 
-        public I3dm(byte[] glb) : this()
+        public I3dm(List<Vector3> positions, byte[] glb) : this()
         {
+            FeatureTable = new FeatureTable();
+            Positions = positions;
             GlbData = glb;
         }
 
@@ -26,5 +31,20 @@
 
         public FeatureTable FeatureTable { get; set; }
 
+        public List<Vector3> Positions { get; set; }
+        public List<Vector3> NormalUps { get; set; }
+        public List<Vector3> NormalRights { get; set; }
+        public List<Vector3> ScaleNonUniforms { get; set; }
+
+        public string GetFeatureTableJson(bool EastNorthUp=false)
+        {
+            FeatureTable = new FeatureTable();
+            FeatureTable.InstancesLength = Positions.Count;
+            FeatureTable.IsEastNorthUp = EastNorthUp;
+            FeatureTable.PositionOffset = new ByteOffset() { byteOffset = 0 };
+            var options = new JsonSerializerOptions() { IgnoreNullValues = true };
+            var featureTableJson = JsonSerializer.Serialize(FeatureTable, options);
+            return featureTableJson;
+        }
     }
 }

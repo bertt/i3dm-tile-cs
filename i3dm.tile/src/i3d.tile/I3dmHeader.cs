@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace I3dm.Tile
@@ -17,7 +19,7 @@ namespace I3dm.Tile
 
         public I3dmHeader()
         {
-            Magic = "b3dm";
+            Magic = "i3dm";
             Version = 1;
             FeatureTableJsonByteLength = 0;
             FeatureTableBinaryByteLength = 0;
@@ -40,9 +42,24 @@ namespace I3dm.Tile
 
         public byte[] AsBinary()
         {
-            return null;
-            // todo
+            var magicBytes = Encoding.UTF8.GetBytes(Magic);
+            var versionBytes = BitConverter.GetBytes(Version);
+            var byteLengthBytes = BitConverter.GetBytes(ByteLength);
+            var featureTableJsonByteLengthBytes = BitConverter.GetBytes(FeatureTableJsonByteLength);
+            var featureTableBinaryByteLengthBytes = BitConverter.GetBytes(FeatureTableBinaryByteLength);
+            var batchTableJsonByteLength = BitConverter.GetBytes(BatchTableJsonByteLength);
+            var batchTableBinaryByteLength = BitConverter.GetBytes(BatchTableBinaryByteLength);
+            var gltfFormatBytes = BitConverter.GetBytes(GltfFormat);
 
+            return magicBytes.
+                Concat(versionBytes).
+                Concat(byteLengthBytes).
+                Concat(featureTableJsonByteLengthBytes).
+                Concat(featureTableBinaryByteLengthBytes).
+                Concat(batchTableJsonByteLength).
+                Concat(batchTableBinaryByteLength).
+                Concat(gltfFormatBytes).
+                ToArray();
         }
     }
 }

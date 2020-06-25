@@ -18,28 +18,9 @@ namespace I3dm.Tile
                 var featureTableBytes = reader.ReadBytes(i3dmHeader.FeatureTableBinaryByteLength);
                 var batchTableJson = Encoding.UTF8.GetString(reader.ReadBytes(i3dmHeader.BatchTableJsonByteLength));
                 var batchTableBytes = reader.ReadBytes(i3dmHeader.BatchTableBinaryByteLength);
-
                 var glbLength = (int)(reader.BaseStream.Length - reader.BaseStream.Position);
                 var glbBuffer = reader.ReadBytes(glbLength);
                 var featureTable = JsonSerializer.Deserialize<FeatureTable>(featureTableJson);
-
-                if (featureTable.Position != null)
-                {
-                    featureTable.Positions = GetVector3(featureTable.InstancesLength, featureTable.Position.byteOffset, featureTableBytes);
-                };
-                if (featureTable.NormalUp != null)
-                {
-                    featureTable.NormalUps = GetVector3(featureTable.InstancesLength, featureTable.NormalUp.byteOffset, featureTableBytes);
-                }
-                if(featureTable.NormalRight != null)
-                {
-                    featureTable.NormalRights = GetVector3(featureTable.InstancesLength, featureTable.NormalRight.byteOffset, featureTableBytes);
-                }
-                if(featureTable.ScaleNonUniForm != null)
-                {
-                    featureTable.ScaleNonUniforms= GetVector3(featureTable.InstancesLength, featureTable.ScaleNonUniForm.byteOffset, featureTableBytes);
-                }
-
                 // todo: batch table ids'... complexity it can be any format like 'UNSIGNED_BYTE' or others
 
                 var i3dm = new I3dm
@@ -52,6 +33,24 @@ namespace I3dm.Tile
                     BatchTableBinary = batchTableBytes,
                     FeatureTable = featureTable
                 };
+
+                if (featureTable.PositionOffset != null)
+                {
+                    i3dm.Positions = GetVector3(featureTable.InstancesLength, featureTable.PositionOffset.byteOffset, featureTableBytes);
+                };
+                if (featureTable.NormalUpOffset != null)
+                {
+                    i3dm.NormalUps = GetVector3(featureTable.InstancesLength, featureTable.NormalUpOffset.byteOffset, featureTableBytes);
+                }
+                if (featureTable.NormalRightOffset != null)
+                {
+                    //featureTable.NormalRights = GetVector3(featureTable.InstancesLength, featureTable.NormalRight.byteOffset, featureTableBytes);
+                }
+                if (featureTable.ScaleNonUniformOffset != null)
+                {
+                    //featureTable.ScaleNonUniforms= GetVector3(featureTable.InstancesLength, featureTable.ScaleNonUniForm.byteOffset, featureTableBytes);
+                }
+
                 return i3dm;
             }
         }
