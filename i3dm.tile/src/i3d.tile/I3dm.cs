@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using System.Text.Json;
 
@@ -38,8 +39,25 @@ namespace I3dm.Tile
 
         public string GetFeatureTableJson()
         {
+            var offset = 0;
             FeatureTable.InstancesLength = Positions.Count;
-            FeatureTable.PositionOffset = new ByteOffset() { byteOffset = 0 };
+            FeatureTable.PositionOffset = new ByteOffset() { byteOffset = offset };
+            if (NormalUps != null)
+            {
+                offset += Positions.ToBytes().Count();
+                FeatureTable.NormalUpOffset = new ByteOffset() { byteOffset = offset};
+            }
+            if (NormalRights != null)
+            {
+                offset += NormalRights.ToBytes().Count();
+                FeatureTable.NormalRightOffset = new ByteOffset() { byteOffset = offset };
+            }
+            if (ScaleNonUniforms != null)
+            {
+                offset += ScaleNonUniforms.ToBytes().Count();
+                FeatureTable.ScaleNonUniformOffset = new ByteOffset() { byteOffset = offset };
+            }
+
             var options = new JsonSerializerOptions() { IgnoreNullValues = true };
             var featureTableJson = JsonSerializer.Serialize(FeatureTable, options);
             return featureTableJson;
