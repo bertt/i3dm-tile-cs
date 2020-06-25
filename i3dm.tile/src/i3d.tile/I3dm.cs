@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Numerics;
 using System.Text.Json;
 
@@ -9,6 +10,7 @@ namespace I3dm.Tile
         public I3dm()
         {
             I3dmHeader = new I3dmHeader();
+            FeatureTable = new FeatureTable();
             FeatureTableJson = string.Empty;
             BatchTableJson = string.Empty;
             FeatureTableBinary = new byte[0];
@@ -17,7 +19,6 @@ namespace I3dm.Tile
 
         public I3dm(List<Vector3> positions, byte[] glb) : this()
         {
-            FeatureTable = new FeatureTable();
             Positions = positions;
             GlbData = glb;
         }
@@ -36,11 +37,12 @@ namespace I3dm.Tile
         public List<Vector3> NormalRights { get; set; }
         public List<Vector3> ScaleNonUniforms { get; set; }
 
-        public string GetFeatureTableJson(bool EastNorthUp=false)
+        public string GetFeatureTableJson()
         {
-            FeatureTable = new FeatureTable();
+            //FeatureTable = new FeatureTable();
             FeatureTable.InstancesLength = Positions.Count;
-            FeatureTable.IsEastNorthUp = EastNorthUp;
+            // FeatureTable.IsEastNorthUp = EastNorthUp;
+            // todo: next line: calculate the offsets for all items
             FeatureTable.PositionOffset = new ByteOffset() { byteOffset = 0 };
             var options = new JsonSerializerOptions() { IgnoreNullValues = true };
             var featureTableJson = JsonSerializer.Serialize(FeatureTable, options);

@@ -1,6 +1,7 @@
 ﻿using I3dm.Tile;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using System.Text.Json;
 
@@ -34,13 +35,29 @@ namespace i3dm.tile.tests
             i3dm.Positions = positions;
 
             // act
-            var featureTableJson = i3dm.GetFeatureTableJson(true);
+            var featureTableJson = i3dm.GetFeatureTableJson();
             var featureTable = JsonSerializer.Deserialize<FeatureTable>(featureTableJson);
 
             // assert
             Assert.IsTrue(featureTable.InstancesLength == 2);
-            Assert.IsTrue(featureTable.IsEastNorthUp== true);
+            Assert.IsTrue(featureTable.IsEastNorthUp== false);
             Assert.IsTrue(featureTable.PositionOffset.byteOffset== 0);
+        }
+
+        [Test]
+        public void PositionsToByteArrayTest()
+        {
+            // arrange
+            var positions = new List<Vector3>();
+            positions.Add(new Vector3(0, 0, 0));
+            positions.Add(new Vector3(1, 1, 1));
+
+            // act
+            var bytes = positions.ToBytes();
+
+            // Assert
+            // should be 4 bytes each value, 2 positions, 3 values (x, y, z) each
+            Assert.IsTrue(bytes.Length == 2*3*4);
         }
     }
 }

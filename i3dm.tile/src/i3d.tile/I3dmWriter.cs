@@ -9,7 +9,8 @@ namespace I3dm.Tile
         {
             // create FeatureTableJson...
             // i3dm.FeatureTableJson = @"{""INSTANCES_LENGTH"":25,""EAST_NORTH_UP"":true,""POSITION"":{""byteOffset"":0}}";
-            var featureTableJson = i3dm.GetFeatureTableJson();
+            i3dm.FeatureTableJson = i3dm.GetFeatureTableJson();
+            i3dm.FeatureTableBinary = i3dm.Positions.ToBytes();
 
             var header_length = 28;
             i3dm.I3dmHeader.ByteLength = 
