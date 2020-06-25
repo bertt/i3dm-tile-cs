@@ -50,10 +50,28 @@ namespace I3dm.Tile
                 {
                     i3dm.ScaleNonUniforms= GetVector3Collection(featureTable.InstancesLength, featureTable.ScaleNonUniformOffset.byteOffset, featureTableBytes);
                 }
+                if (featureTable.BatchIdOffset != null)
+                {
+                    // todo: uint8 is handled here (As byte), add uint16(default - as System.UInt16 ) and uint32 (as System.UInt32)
+                    i3dm.BatchIdsBytes = GetBatchIdCollection(featureTable.InstancesLength, featureTable.BatchIdOffset.byteOffset, featureTableBytes);
+                }
 
                 return i3dm;
             }
         }
+
+        private static List<byte> GetBatchIdCollection(int instances, int offset, byte[] featureTable)
+        {
+            var res = new List<byte>();
+            for (var i = 0; i < instances; i++)
+            {
+                var x = featureTable[i * 1 + offset];
+                res.Add(x);
+            }
+
+            return res;
+        }
+
 
         private static List<Vector3> GetVector3Collection(int instances, int offset, byte[] featureTable)
         {

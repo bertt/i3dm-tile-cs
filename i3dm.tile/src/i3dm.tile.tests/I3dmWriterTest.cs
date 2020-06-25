@@ -22,6 +22,8 @@ namespace i3dm.tile.tests
             i3dm.NormalUps = i3dmExpected.NormalUps;
             i3dm.NormalRights = i3dmExpected.NormalRights;
             i3dm.ScaleNonUniforms = i3dmExpected.ScaleNonUniforms;
+            i3dm.BatchIdsBytes = i3dmExpected.BatchIdsBytes;
+
             i3dm.BatchTableJson = @"{""Height"":[20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20]} ";
             var result = @"testfixtures/barrel_actual.i3dm";
             I3dmWriter.Write(result, i3dm);
@@ -33,7 +35,7 @@ namespace i3dm.tile.tests
             Assert.IsTrue(i3dmActual.I3dmHeader.Magic == "i3dm");
             Assert.IsTrue(i3dmActual.I3dmHeader.GltfFormat == 1);
             Assert.IsTrue(i3dmActual.I3dmHeader.BatchTableJsonByteLength == 88);
-            Assert.IsTrue(i3dmActual.I3dmHeader.FeatureTableBinaryByteLength == 10 * 4 * 3 * 4); // note: is 304 in original file?
+            Assert.IsTrue(i3dmActual.I3dmHeader.FeatureTableBinaryByteLength == 10 * 4 * 3 * 4 +10); // note: is 304 in original file?
             Assert.IsTrue(i3dmActual.I3dmHeader.BatchTableBinaryByteLength == 0);
             Assert.IsTrue(i3dmActual.Positions.Count == 10);
             Assert.IsTrue(i3dmActual.FeatureTable.IsEastNorthUp == false);

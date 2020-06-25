@@ -36,6 +36,7 @@ namespace I3dm.Tile
         public List<Vector3> NormalUps { get; set; }
         public List<Vector3> NormalRights { get; set; }
         public List<Vector3> ScaleNonUniforms { get; set; }
+        public List<byte> BatchIdsBytes { get; set; }
 
         public string GetFeatureTableJson()
         {

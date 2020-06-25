@@ -23,6 +23,10 @@ namespace I3dm.Tile
             {
                 featureTableBinary.AddRange(i3dm.ScaleNonUniforms.ToBytes());
             }
+            if (i3dm.BatchIdsBytes != null)
+            {
+                featureTableBinary.AddRange(i3dm.BatchIdsBytes.ToArray());
+            }
 
             i3dm.FeatureTableBinary = featureTableBinary.ToArray();
 

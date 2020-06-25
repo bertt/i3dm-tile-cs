@@ -82,6 +82,8 @@ namespace i3dm.tile.tests
             Assert.IsTrue(i3dm.FeatureTable.InstancesLength == 10);
             Assert.IsTrue(i3dm.Positions[0].Equals(new Vector3(0, 0, 0)));
             Assert.IsTrue(i3dm.Positions[1].Equals(new Vector3(20, 0, 0)));
+            Assert.IsTrue(i3dm.BatchIdsBytes[0]==0);
+
 
             Assert.IsTrue(i3dm.FeatureTableBinary.Length == 496);
             var stream = new MemoryStream(i3dm.GlbData);
