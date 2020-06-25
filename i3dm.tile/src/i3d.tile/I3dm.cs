@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Numerics;
 using System.Text.Json;
 
@@ -39,10 +38,7 @@ namespace I3dm.Tile
 
         public string GetFeatureTableJson()
         {
-            //FeatureTable = new FeatureTable();
             FeatureTable.InstancesLength = Positions.Count;
-            // FeatureTable.IsEastNorthUp = EastNorthUp;
-            // todo: next line: calculate the offsets for all items
             FeatureTable.PositionOffset = new ByteOffset() { byteOffset = 0 };
             var options = new JsonSerializerOptions() { IgnoreNullValues = true };
             var featureTableJson = JsonSerializer.Serialize(FeatureTable, options);

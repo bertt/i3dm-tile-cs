@@ -36,26 +36,26 @@ namespace I3dm.Tile
 
                 if (featureTable.PositionOffset != null)
                 {
-                    i3dm.Positions = GetVector3(featureTable.InstancesLength, featureTable.PositionOffset.byteOffset, featureTableBytes);
+                    i3dm.Positions = GetVector3Collection(featureTable.InstancesLength, featureTable.PositionOffset.byteOffset, featureTableBytes);
                 };
                 if (featureTable.NormalUpOffset != null)
                 {
-                    i3dm.NormalUps = GetVector3(featureTable.InstancesLength, featureTable.NormalUpOffset.byteOffset, featureTableBytes);
+                    i3dm.NormalUps = GetVector3Collection(featureTable.InstancesLength, featureTable.NormalUpOffset.byteOffset, featureTableBytes);
                 }
                 if (featureTable.NormalRightOffset != null)
                 {
-                    //featureTable.NormalRights = GetVector3(featureTable.InstancesLength, featureTable.NormalRight.byteOffset, featureTableBytes);
+                    i3dm.NormalRights = GetVector3Collection(featureTable.InstancesLength, featureTable.NormalRightOffset.byteOffset, featureTableBytes);
                 }
                 if (featureTable.ScaleNonUniformOffset != null)
                 {
-                    //featureTable.ScaleNonUniforms= GetVector3(featureTable.InstancesLength, featureTable.ScaleNonUniForm.byteOffset, featureTableBytes);
+                    i3dm.ScaleNonUniforms= GetVector3Collection(featureTable.InstancesLength, featureTable.ScaleNonUniformOffset.byteOffset, featureTableBytes);
                 }
 
                 return i3dm;
             }
         }
 
-        private static List<Vector3> GetVector3(int instances, int offset, byte[] featureTable)
+        private static List<Vector3> GetVector3Collection(int instances, int offset, byte[] featureTable)
         {
             var res = new List<Vector3>();
             for (var i = 0; i < instances; i++)

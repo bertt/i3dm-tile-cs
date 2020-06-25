@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace I3dm.Tile
@@ -7,10 +8,23 @@ namespace I3dm.Tile
     {
         public static string WriteI3dm(string path, I3dm i3dm)
         {
-            // create FeatureTableJson...
-            // i3dm.FeatureTableJson = @"{""INSTANCES_LENGTH"":25,""EAST_NORTH_UP"":true,""POSITION"":{""byteOffset"":0}}";
             i3dm.FeatureTableJson = i3dm.GetFeatureTableJson();
-            i3dm.FeatureTableBinary = i3dm.Positions.ToBytes();
+            var featureTableBinary = new List<byte>();
+            featureTableBinary.AddRange(i3dm.Positions.ToBytes());
+            if (i3dm.NormalUps != null)
+            {
+                featureTableBinary.AddRange(i3dm.NormalUps.ToBytes());
+            }
+            if (i3dm.NormalRights != null)
+            {
+                featureTableBinary.AddRange(i3dm.NormalRights.ToBytes());
+            }
+            if (i3dm.ScaleNonUniforms != null)
+            {
+                featureTableBinary.AddRange(i3dm.ScaleNonUniforms.ToBytes());
+            }
+
+            i3dm.FeatureTableBinary = featureTableBinary.ToArray();
 
             var header_length = 28;
             i3dm.I3dmHeader.ByteLength = 

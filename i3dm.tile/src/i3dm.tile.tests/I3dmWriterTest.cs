@@ -1,6 +1,5 @@
 ﻿using I3dm.Tile;
 using NUnit.Framework;
-using System;
 using System.IO;
 using System.Numerics;
 
@@ -9,7 +8,7 @@ namespace i3dm.tile.tests
     public class I3dmWriterTest
     {
         [Test]
-        public void WriteB3dmTest()
+        public void WriteTreeI3dmTest()
         {
             // arrange
             var i3dmExpectedfile = File.OpenRead(@"testfixtures/tree.i3dm");
@@ -22,7 +21,7 @@ namespace i3dm.tile.tests
             i3dm.I3dmHeader.GltfFormat = 1;
             i3dm.FeatureTable.IsEastNorthUp = true;
             i3dm.BatchTableJson = @"{""Height"":[20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20]} ";
-            // i3dm.FeatureTableJson = @"{""INSTANCES_LENGTH"":25,""EAST_NORTH_UP"":true,""POSITION"":{""byteOffset"":0}}";
+            i3dm.FeatureTableJson = @"{""INSTANCES_LENGTH"":25,""EAST_NORTH_UP"":true,""POSITION"":{""byteOffset"":0}}";
 
             // act
             var result = @"testfixtures/tree_actual.i3dm";
@@ -48,38 +47,5 @@ namespace i3dm.tile.tests
             Assert.IsTrue(glb.Asset.Version.Major == 2.0);
             Assert.IsTrue(glb.Asset.Generator == "COLLADA2GLTF");
         }
-
-        const int BYTES_TO_READ = sizeof(Int64);
-
-        static bool FilesAreEqual(FileInfo first, FileInfo second)
-        {
-            if (first.Length != second.Length)
-                return false;
-
-            if (string.Equals(first.FullName, second.FullName, StringComparison.OrdinalIgnoreCase))
-                return true;
-
-            int iterations = (int)Math.Ceiling((double)first.Length / BYTES_TO_READ);
-
-            using (FileStream fs1 = first.OpenRead())
-            using (FileStream fs2 = second.OpenRead())
-            {
-                byte[] one = new byte[BYTES_TO_READ];
-                byte[] two = new byte[BYTES_TO_READ];
-
-                for (int i = 0; i < iterations; i++)
-                {
-                    fs1.Read(one, 0, BYTES_TO_READ);
-                    fs2.Read(two, 0, BYTES_TO_READ);
-
-                    if (BitConverter.ToInt64(one, 0) != BitConverter.ToInt64(two, 0))
-                        return false;
-                }
-            }
-
-            return true;
-        }
-
-
     }
 }
