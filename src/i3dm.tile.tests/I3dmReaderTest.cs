@@ -19,6 +19,7 @@ namespace i3dm.tile.tests
             // arrange
             var i3dmfile = File.OpenRead(@"testfixtures/instancedAnimated.i3dm");
             Assert.IsTrue(i3dmfile != null);
+
             // act
             var i3dm = I3dmReader.Read(i3dmfile);
             Assert.IsTrue(expectedMagicHeader == i3dm.I3dmHeader.Magic);

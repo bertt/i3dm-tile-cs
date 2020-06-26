@@ -1,7 +1,6 @@
 ﻿using I3dm.Tile;
 using NUnit.Framework;
 using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
 using System.Text.Json;
 
@@ -10,7 +9,7 @@ namespace i3dm.tile.tests
     public class FeatureTableTests
     {
         [Test]
-        public void SeriliazeFeatureTablejsonTest()
+        public void SerializeFeatureTablejsonTest()
         {
             // arrange
             var featureTableJson = @"{""INSTANCES_LENGTH"":25,""EAST_NORTH_UP"":true,""POSITION"":{""byteOffset"":0}}";
@@ -48,9 +47,11 @@ namespace i3dm.tile.tests
         public void PositionsToByteArrayTest()
         {
             // arrange
-            var positions = new List<Vector3>();
-            positions.Add(new Vector3(0, 0, 0));
-            positions.Add(new Vector3(1, 1, 1));
+            var positions = new List<Vector3>
+            {
+                new Vector3(0, 0, 0),
+                new Vector3(1, 1, 1)
+            };
 
             // act
             var bytes = positions.ToBytes();

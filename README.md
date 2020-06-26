@@ -19,12 +19,15 @@ var i3dmfile = File.OpenRead(@"test.i3dm");
 var i3dm = I3dmReader.Read(i3dmfile);
 ```
 
-Writing i3dm. Supply the GLB (as byte[]) and instance positions (as list of Vector3)
+The i3dm object contains the glTF, FeatureTable (for instance Positions, NormalUps, NormalRights, ScaleNonUniforms) and 
+BatchTable information.
+
+Writing i3dm. Supply the GLB (as byte[]) and instance positions (as list of Vector3). Optionally 
+instance NormalUps, NormalRights and ScaleNonUniforms can be provided.
 
 ```
 var i3dm = new I3dm.Tile.I3dm(positions, glb);
-var result = @"test.i3dm";
-I3dmWriter.Write(result, i3dm);
+I3dmWriter.Write("test.i3dm", i3dm);
 ```
 
 ## Dependencies

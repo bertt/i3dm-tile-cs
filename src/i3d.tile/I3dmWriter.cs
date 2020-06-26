@@ -4,7 +4,7 @@ using System.Text;
 
 namespace I3dm.Tile
 {
-    public static class I3dmWriter
+    public struct I3dmWriter
     {
         public static string Write(string path, I3dm i3dm)
         {

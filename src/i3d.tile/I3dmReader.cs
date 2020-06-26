@@ -7,7 +7,7 @@ using System.Text.Json;
 
 namespace I3dm.Tile
 {
-    public static class I3dmReader
+    public struct I3dmReader
     {
         public static I3dm Read(Stream stream)
         {
@@ -72,7 +72,6 @@ namespace I3dm.Tile
             return res;
         }
 
-
         private static List<Vector3> GetVector3Collection(int instances, int offset, byte[] featureTable)
         {
             var res = new List<Vector3>();
@@ -84,7 +83,6 @@ namespace I3dm.Tile
                 var vector = new Vector3(x, y, z);
                 res.Add(vector);
             }
-
             return res;
         }
     }
