@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Numerics;
 using System.Text;
@@ -51,7 +52,9 @@ namespace I3dm.Tile
                 i3dm.FeatureTableJson.Length +
                 i3dm.BatchTableJson.Length +
                 i3dm.BatchTableBinary.Length +
-                i3dm.FeatureTableBinary.Length;
+                i3dm.FeatureTableBinary.Length +
+                BitConverter.GetBytes(i3dm.I3dmHeader.GltfFormat).Length;
+
             i3dm.I3dmHeader.FeatureTableJsonByteLength = i3dm.FeatureTableJson.Length;
             i3dm.I3dmHeader.BatchTableJsonByteLength = i3dm.BatchTableJson.Length;
             i3dm.I3dmHeader.FeatureTableBinaryByteLength = i3dm.FeatureTableBinary.Length;

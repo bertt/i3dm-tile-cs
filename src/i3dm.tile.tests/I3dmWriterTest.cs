@@ -179,7 +179,7 @@ namespace i3dm.tile.tests
             i3dm.BatchTableJson = @"{""Height"":[20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20]} ";
 
             // act
-            var result = @"testfixtures/tree_actual.i3dm";
+            var result = @"tree.i3dm";
             I3dmWriter.Write(result, i3dm);
 
             var i3dmActualStream = File.OpenRead(@"testfixtures/tree_actual.i3dm");
