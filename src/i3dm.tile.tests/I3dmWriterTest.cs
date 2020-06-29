@@ -18,7 +18,7 @@ namespace i3dm.tile.tests
 
             var i3dm = new I3dm.Tile.I3dm(positions, treeGlb);
             i3dm.RtcCenter = new Vector3(100, 100, 100);
-            var result = @"tree_hello.i3dm";
+            var result = @"tree_rtc_Center.i3dm";
             I3dmWriter.Write(result, i3dm);
 
             var i3dmActualfile = File.OpenRead(result);
@@ -36,7 +36,7 @@ namespace i3dm.tile.tests
             var batchIds = new List<int>() { 9, 11 };
 
             var i3dm = new I3dm.Tile.I3dm(positions, treeGlb);
-            var result = @"tree_hello.i3dm";
+            var result = @"tree_basic.i3dm";
             i3dm.BatchIds = batchIds;
             I3dmWriter.Write(result, i3dm);
 
@@ -62,7 +62,7 @@ namespace i3dm.tile.tests
             var batchIds = new List<int>() { 9, 11 };
 
             var i3dm = new I3dm.Tile.I3dm(positions, treeGlb);
-            var result = @"tree_hello.i3dm";
+            var result = @"tree_batchid.i3dm";
             i3dm.BatchIds = batchIds;
             i3dm.Scales = scales;
             I3dmWriter.Write(result, i3dm);
@@ -96,7 +96,7 @@ namespace i3dm.tile.tests
             // write i3dm with every type for batch_id
             foreach(var type in types)
             {
-                var result = $"tree_hello_{type}.i3dm";
+                var result = $"tree_batchid_{type}.i3dm";
                 i3dm.BatchIds = batchIds;
                 I3dmWriter.Write(result, i3dm, type);
 
