@@ -7,7 +7,7 @@ namespace I3dm.Tile
 {
     public class I3dm
     {
-        public I3dm()
+        private I3dm()
         {
             I3dmHeader = new I3dmHeader();
             FeatureTable = new FeatureTable();
@@ -36,27 +36,45 @@ namespace I3dm.Tile
         public List<Vector3> NormalUps { get; set; }
         public List<Vector3> NormalRights { get; set; }
         public List<Vector3> ScaleNonUniforms { get; set; }
-        public List<byte> BatchIdsBytes { get; set; }
+        public List<float> Scales { get; set; }
+        public List<int> BatchIds { get; set; }
+        public Vector3 RtcCenter { get; set; }
 
-        public string GetFeatureTableJson()
+        public string GetFeatureTableJson(string batchIdSerializeType = "UNSIGNED_SHORT", int batchIdBytesLength=0)
         {
             var offset = 0;
             FeatureTable.InstancesLength = Positions.Count;
-            FeatureTable.PositionOffset = new ByteOffset() { byteOffset = offset };
+            FeatureTable.PositionOffset = new ByteOffset() { offset = offset };
+            offset += Positions.ToBytes().Count();
             if (NormalUps != null)
             {
-                offset += Positions.ToBytes().Count();
-                FeatureTable.NormalUpOffset = new ByteOffset() { byteOffset = offset};
+                FeatureTable.NormalUpOffset = new ByteOffset() { offset = offset};
+                offset += NormalUps.ToBytes().Count();
             }
             if (NormalRights != null)
             {
+                FeatureTable.NormalRightOffset = new ByteOffset() { offset = offset };
                 offset += NormalRights.ToBytes().Count();
-                FeatureTable.NormalRightOffset = new ByteOffset() { byteOffset = offset };
             }
             if (ScaleNonUniforms != null)
             {
+                FeatureTable.ScaleNonUniformOffset = new ByteOffset() { offset = offset };
                 offset += ScaleNonUniforms.ToBytes().Count();
-                FeatureTable.ScaleNonUniformOffset = new ByteOffset() { byteOffset = offset };
+            }
+            if (Scales != null)
+            {
+                FeatureTable.ScaleOffset = new ByteOffset() { offset = offset };
+                offset += Scales.ToBytes().Count();
+            }
+            if(RtcCenter != Vector3.Zero)
+            {
+                FeatureTable.RtcCenterOffset = new ByteOffset() { offset = offset };
+                offset += RtcCenter.ToBytes().Count();
+            }
+            if (BatchIds != null)
+            {
+                FeatureTable.BatchIdOffset = new ByteOffset() { offset = offset, componentType = batchIdSerializeType };
+                // not needed beacuse last one: offset += batchIdBytesLength;
             }
 
             var options = new JsonSerializerOptions() { IgnoreNullValues = true };

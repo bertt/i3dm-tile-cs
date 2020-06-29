@@ -21,9 +21,10 @@ namespace I3dm.Tile
                 var glbLength = (int)(reader.BaseStream.Length - reader.BaseStream.Position);
                 var glbBuffer = reader.ReadBytes(glbLength);
                 var featureTable = JsonSerializer.Deserialize<FeatureTable>(featureTableJson);
-                // todo: batch table ids'... complexity it can be any format like 'UNSIGNED_BYTE' or others
 
-                var i3dm = new I3dm
+                var positions = GetVector3Collection(featureTable.InstancesLength, featureTable.PositionOffset.offset, featureTableBytes);
+
+                var i3dm = new I3dm(positions,glbBuffer)
                 {
                     I3dmHeader = i3dmHeader,
                     GlbData = glbBuffer,
@@ -34,39 +35,65 @@ namespace I3dm.Tile
                     FeatureTable = featureTable
                 };
 
-                if (featureTable.PositionOffset != null)
-                {
-                    i3dm.Positions = GetVector3Collection(featureTable.InstancesLength, featureTable.PositionOffset.byteOffset, featureTableBytes);
-                };
                 if (featureTable.NormalUpOffset != null)
                 {
-                    i3dm.NormalUps = GetVector3Collection(featureTable.InstancesLength, featureTable.NormalUpOffset.byteOffset, featureTableBytes);
+                    i3dm.NormalUps = GetVector3Collection(featureTable.InstancesLength, featureTable.NormalUpOffset.offset, featureTableBytes);
                 }
                 if (featureTable.NormalRightOffset != null)
                 {
-                    i3dm.NormalRights = GetVector3Collection(featureTable.InstancesLength, featureTable.NormalRightOffset.byteOffset, featureTableBytes);
+                    i3dm.NormalRights = GetVector3Collection(featureTable.InstancesLength, featureTable.NormalRightOffset.offset, featureTableBytes);
                 }
                 if (featureTable.ScaleNonUniformOffset != null)
                 {
-                    i3dm.ScaleNonUniforms= GetVector3Collection(featureTable.InstancesLength, featureTable.ScaleNonUniformOffset.byteOffset, featureTableBytes);
+                    i3dm.ScaleNonUniforms= GetVector3Collection(featureTable.InstancesLength, featureTable.ScaleNonUniformOffset.offset, featureTableBytes);
                 }
                 if (featureTable.BatchIdOffset != null)
                 {
-                    // todo: uint8 is handled here (As byte), add uint16(default - as System.UInt16 ) and uint32 (as System.UInt32)
-                    i3dm.BatchIdsBytes = GetBatchIdCollection(featureTable.InstancesLength, featureTable.BatchIdOffset.byteOffset, featureTableBytes);
+                    i3dm.BatchIds = GetBatchIdCollection(featureTable.InstancesLength, featureTable.BatchIdOffset.offset, featureTableBytes, featureTable.BatchIdOffset.componentType);
+                }
+                if (featureTable.ScaleOffset != null)
+                {
+                    i3dm.Scales = GetFloatCollection(featureTable.InstancesLength, featureTable.ScaleOffset.offset, featureTableBytes);
+                }
+                if (featureTable.RtcCenterOffset != null)
+                {
+                    i3dm.RtcCenter = GetVector3(featureTable.RtcCenterOffset.offset, featureTableBytes);
                 }
 
                 return i3dm;
             }
         }
 
-        private static List<byte> GetBatchIdCollection(int instances, int offset, byte[] featureTable)
+        private static List<float> GetFloatCollection(int instances, int offset, byte[] featureTable)
         {
-            var res = new List<byte>();
+            var res = new List<float>();
             for (var i = 0; i < instances; i++)
             {
-                var x = featureTable[i * 1 + offset];
-                res.Add(x);
+                res.Add(BitConverter.ToSingle(featureTable, i * 4 + offset));
+            }
+
+            return res;
+        }
+
+        private static List<int> GetBatchIdCollection(int instances, int offset, byte[] featureTable, string componentType)
+        {
+            var res = new List<int>();
+            for (var i = 0; i < instances; i++)
+            {
+                int batchId=0;
+                switch (componentType)
+                {
+                    case "UNSIGNED_BYTE":
+                        batchId = featureTable[i + offset];
+                        break;
+                    case "UNSIGNED_SHORT":
+                        batchId = BitConverter.ToUInt16(featureTable, i*2 + offset);
+                        break;
+                    case "UNSIGNED_INT":
+                        batchId = (int)BitConverter.ToUInt32(featureTable, i*4 + offset);
+                        break;
+                }
+                res.Add(batchId);
             }
 
             return res;
@@ -77,13 +104,19 @@ namespace I3dm.Tile
             var res = new List<Vector3>();
             for (var i = 0; i < instances; i++)
             {
-                var x = BitConverter.ToSingle(featureTable, i * 12 + 0 + offset);
-                var y = BitConverter.ToSingle(featureTable, i * 12 + 4 + offset);
-                var z = BitConverter.ToSingle(featureTable, i * 12 + 8 + offset);
-                var vector = new Vector3(x, y, z);
+                Vector3 vector = GetVector3(offset, featureTable, i);
                 res.Add(vector);
             }
             return res;
+        }
+
+        private static Vector3 GetVector3(int offset, byte[] featureTable, int i=0)
+        {
+            var x = BitConverter.ToSingle(featureTable, i * 12 + 0 + offset);
+            var y = BitConverter.ToSingle(featureTable, i * 12 + 4 + offset);
+            var z = BitConverter.ToSingle(featureTable, i * 12 + 8 + offset);
+            var vector = new Vector3(x, y, z);
+            return vector;
         }
     }
 }

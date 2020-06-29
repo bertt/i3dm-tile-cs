@@ -1,7 +1,13 @@
-﻿namespace I3dm.Tile
+﻿using System.Text.Json.Serialization;
+
+namespace I3dm.Tile
 {
     public class ByteOffset
     {
-        public int byteOffset { get; set; }
+        [JsonPropertyName("byteOffset")]
+
+        public int offset { get; set; }
+
+        public string componentType { get; set; }
     }
 }

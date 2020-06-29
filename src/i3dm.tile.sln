@@ -5,11 +5,11 @@ VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "i3dm.tile", "i3d.tile\i3dm.tile.csproj", "{64CB6F2B-A128-4C31-AF13-41FCAC823389}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "i3dm.tile.tests", "i3dm.tile.tests\i3dm.tile.tests.csproj", "{85FF97CE-E640-44BB-B467-FAE27308EA65}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "i3dm.tile.tests", "i3dm.tile.tests\i3dm.tile.tests.csproj", "{85FF97CE-E640-44BB-B467-FAE27308EA65}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{11E60337-EEA6-4DFC-B276-A14FE520BB98}"
 	ProjectSection(SolutionItems) = preProject
-		..\..\README.md = ..\..\README.md
+		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
 Global

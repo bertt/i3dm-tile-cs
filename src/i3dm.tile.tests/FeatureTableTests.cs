@@ -20,17 +20,17 @@ namespace i3dm.tile.tests
             // assert
             Assert.IsTrue(featureTable.InstancesLength == 25);
             Assert.IsTrue(featureTable.IsEastNorthUp);
-            Assert.IsTrue(featureTable.PositionOffset.byteOffset==0);
+            Assert.IsTrue(featureTable.PositionOffset.offset==0);
         }
 
         [Test]
         public void DeserializeFeatureTableToJsonTest()
         {
             // arrange
-            var i3dm = new I3dm.Tile.I3dm();
             var positions = new List<Vector3>();
             positions.Add(new Vector3(0, 0, 0));
             positions.Add(new Vector3(1, 1, 1));
+            var i3dm = new I3dm.Tile.I3dm(positions, null);
             i3dm.Positions = positions;
 
             // act
@@ -40,7 +40,7 @@ namespace i3dm.tile.tests
             // assert
             Assert.IsTrue(featureTable.InstancesLength == 2);
             Assert.IsTrue(featureTable.IsEastNorthUp== false);
-            Assert.IsTrue(featureTable.PositionOffset.byteOffset== 0);
+            Assert.IsTrue(featureTable.PositionOffset.offset== 0);
         }
 
         [Test]
