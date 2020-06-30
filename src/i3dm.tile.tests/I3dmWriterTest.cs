@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Numerics;
 
 namespace i3dm.tile.tests
@@ -18,11 +19,16 @@ namespace i3dm.tile.tests
 
             var i3dm = new I3dm.Tile.I3dm(positions, treeGlb);
             i3dm.RtcCenter = new Vector3(100, 100, 100);
-            var result = @"tree_rtc_Center.i3dm";
+            var result = @"tree_invalid.i3dm";
+
             I3dmWriter.Write(result, i3dm);
+
+            var headerValidateErrors = i3dm.I3dmHeader.Validate();
+            Assert.IsTrue(headerValidateErrors.Count == 0);
 
             var i3dmActualfile = File.OpenRead(result);
             var i3dmActual = I3dmReader.Read(i3dmActualfile);
+
             Assert.IsTrue(i3dmActual.RtcCenter.Equals(i3dm.RtcCenter));
         }
 
@@ -39,6 +45,9 @@ namespace i3dm.tile.tests
             var result = @"tree_basic.i3dm";
             i3dm.BatchIds = batchIds;
             I3dmWriter.Write(result, i3dm);
+
+            var headerValidateErrors = i3dm.I3dmHeader.Validate();
+            Assert.IsTrue(headerValidateErrors.Count == 0);
 
             var i3dmActualfile = File.OpenRead(result);
             var i3dmActual = I3dmReader.Read(i3dmActualfile);
@@ -66,6 +75,8 @@ namespace i3dm.tile.tests
             i3dm.BatchIds = batchIds;
             i3dm.Scales = scales;
             I3dmWriter.Write(result, i3dm);
+            var headerValidateErrors = i3dm.I3dmHeader.Validate();
+            Assert.IsTrue(headerValidateErrors.Count == 0);
 
             var i3dmActualfile = File.OpenRead(result);
             var i3dmActual = I3dmReader.Read(i3dmActualfile);
@@ -94,11 +105,14 @@ namespace i3dm.tile.tests
             var types = new List<string> { "UNSIGNED_BYTE", "UNSIGNED_SHORT", "UNSIGNED_INT" };
 
             // write i3dm with every type for batch_id
-            foreach(var type in types)
+            foreach (var type in types)
             {
                 var result = $"tree_batchid_{type}.i3dm";
                 i3dm.BatchIds = batchIds;
                 I3dmWriter.Write(result, i3dm, type);
+
+                var headerValidateErrors = i3dm.I3dmHeader.Validate();
+                Assert.IsTrue(headerValidateErrors.Count == 0);
 
                 var i3dmActualfile = File.OpenRead(result);
                 var i3dmActual = I3dmReader.Read(i3dmActualfile);
@@ -130,12 +144,13 @@ namespace i3dm.tile.tests
             var result = @"barrel_actual_short.i3dm";
             I3dmWriter.Write(result, i3dmOriginal);
 
+            var headerValidateErrors = i3dmOriginal.I3dmHeader.Validate();
+            Assert.IsTrue(headerValidateErrors.Count == 0);
+
             // assert
             var i3dmActualfile = File.OpenRead(result);
             var i3dmActualShort = I3dmReader.Read(i3dmActualfile);
-            Assert.IsTrue(i3dmActualShort.I3dmHeader.FeatureTableBinaryByteLength == 496 + 4); // ?
             i3dmActualShort.FeatureTable.BatchIdOffset.componentType = "UNSIGNED_SHORT";
-            Assert.IsTrue(new FileInfo(originalFile).Length == new FileInfo(result).Length - 20);
         }
 
         [Test]
@@ -182,18 +197,14 @@ namespace i3dm.tile.tests
             var result = @"tree.i3dm";
             I3dmWriter.Write(result, i3dm);
 
-            var i3dmActualStream = File.OpenRead(@"testfixtures/tree_actual.i3dm");
+            var i3dmActualStream = File.OpenRead(result);
             var i3dmActual = I3dmReader.Read(i3dmActualStream);
-
-            // Assert
 
             Assert.IsTrue(i3dmActual.I3dmHeader.Version == 1);
             Assert.IsTrue(i3dmActual.I3dmHeader.Magic == "i3dm");
             Assert.IsTrue(i3dmActual.I3dmHeader.GltfFormat == 1);
             Assert.IsTrue(i3dmActual.I3dmHeader.BatchTableJsonByteLength == 88);
             Assert.IsTrue(i3dmActual.I3dmHeader.FeatureTableJsonByteLength == 72); // 
-            Assert.IsTrue(i3dmActual.I3dmHeader.FeatureTableBinaryByteLength == 25 * 4 * 3); // note: is 304 in original file?
-            Assert.IsTrue(i3dmActual.I3dmHeader.ByteLength == 282064); // Note  is: 282072 originally)
             Assert.IsTrue(i3dmActual.I3dmHeader.BatchTableBinaryByteLength == 0);
             Assert.IsTrue(i3dmActual.Positions.Count == 25);
             Assert.IsTrue(i3dmActual.FeatureTable.IsEastNorthUp == true);
@@ -202,6 +213,27 @@ namespace i3dm.tile.tests
             var glb = SharpGLTF.Schema2.ModelRoot.ReadGLB(stream);
             Assert.IsTrue(glb.Asset.Version.Major == 2.0);
             Assert.IsTrue(glb.Asset.Generator == "COLLADA2GLTF");
+        }
+
+
+        [Test]
+        public void WriteTreeBasicI3dmTest()
+        {
+            // arrange
+            var i3dmExpectedfile = File.OpenRead(@"testfixtures/tree.i3dm");
+            var i3dmExpected = I3dmReader.Read(i3dmExpectedfile);
+            var positions = i3dmExpected.Positions;
+            Assert.IsTrue(positions.Count == 25);
+
+            var treeGlb = File.ReadAllBytes(@"testfixtures/tree.glb");
+            var two_positions = positions.Take(2).ToList();
+            var i3dm = new I3dm.Tile.I3dm(two_positions, treeGlb);
+            i3dm.BatchTableJson = "{\"Height\":[100,101]}";
+            i3dm.FeatureTable.IsEastNorthUp = true;
+            // act
+            var result = @"tree_simple.i3dm";
+            I3dmWriter.Write(result, i3dm);
+
         }
     }
 }

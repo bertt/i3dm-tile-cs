@@ -41,9 +41,13 @@ I3dmWriter.Write("test.i3dm", i3dm, "UNSIGNED_BYTE");
 
 ## Known limits
 
-Not implemented (yet): quantized and oct encoded properties
+Not implemented (yet): 
+
+- quantized and oct encoded properties
 
 QUANTIZED_VOLUME_OFFSET, QUANTIZED_VOLUME_SCALE, POSITION_QUANTIZED, NORMAL_UP_OCT32P, NORMAL_RIGHT_OCT32P
+
+- gltfFormat as Uri
 
 ## Dependencies
 

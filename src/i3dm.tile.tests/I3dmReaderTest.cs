@@ -2,7 +2,6 @@ using I3dm.Tile;
 using NUnit.Framework;
 using SharpGLTF.Validation;
 using System.IO;
-using System.Linq;
 using System.Numerics;
 
 namespace i3dm.tile.tests
@@ -11,6 +10,22 @@ namespace i3dm.tile.tests
     {
         string expectedMagicHeader = "i3dm";
         int expectedVersionHeader = 1;
+
+
+        [Test]
+        public void ReadInvalidI3dmTest()
+        {
+            // arrange
+            var i3dmfile = File.OpenRead(@"testfixtures/tree_invalid.i3dm");
+            Assert.IsTrue(i3dmfile != null);
+
+            // act
+            var i3dm = I3dmReader.Read(i3dmfile);
+
+            // assert
+            var validationErrors = i3dm.I3dmHeader.Validate();
+            Assert.IsTrue(validationErrors.Count == 3);
+        }
 
         [Test]
         public void InstancedAnimatedTest()

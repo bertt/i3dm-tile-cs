@@ -16,7 +16,8 @@ namespace I3dm.Tile
                 batchIdBytes = GetBatchIdsBytes(i3dm.BatchIds, batchIdSerializeType);
             }
 
-            i3dm.FeatureTableJson = i3dm.GetFeatureTableJson(batchIdSerializeType, batchIdBytes.Length);
+            i3dm.FeatureTableJson = BufferPadding.AddPadding(i3dm.GetFeatureTableJson(batchIdSerializeType, batchIdBytes.Length));
+
             var featureTableBinary = new List<byte>();
             featureTableBinary.AddRange(i3dm.Positions.ToBytes());
             if (i3dm.NormalUps != null)
@@ -43,8 +44,16 @@ namespace I3dm.Tile
             {
                 featureTableBinary.AddRange(i3dm.RtcCenter.ToBytes());
             }
+            if (i3dm.BatchTableJson != string.Empty)
+            {
+                i3dm.BatchTableJson = BufferPadding.AddPadding(i3dm.BatchTableJson);
+            }
+            if (i3dm.BatchTableBinary!= null)
+            {
+                i3dm.BatchTableBinary = BufferPadding.AddPadding(i3dm.BatchTableBinary);
+            }
 
-            i3dm.FeatureTableBinary = featureTableBinary.ToArray();
+            i3dm.FeatureTableBinary = BufferPadding.AddPadding(featureTableBinary.ToArray());
 
             var header_length = 28;
             i3dm.I3dmHeader.ByteLength =
