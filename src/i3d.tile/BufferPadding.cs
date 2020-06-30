@@ -10,13 +10,9 @@ namespace I3dm.Tile
         {
             var remainder = bytes.Length % boundary;
             var padding = (remainder == 0) ? 0 : boundary - remainder;
-            var whitespace = string.Empty;
-            for (var i = 0; i < padding; ++i)
-            {
-                whitespace += " ";
-            }
-            var addBytes = Encoding.UTF8.GetBytes(whitespace);
-            var res = bytes.Concat(addBytes);
+            var whitespace = new string(' ', padding);
+            var paddingBytes = Encoding.UTF8.GetBytes(whitespace);
+            var res = bytes.Concat(paddingBytes);
             return res.ToArray();
         }
         public static string AddPadding(string input)

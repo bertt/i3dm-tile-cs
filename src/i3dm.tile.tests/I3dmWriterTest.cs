@@ -2,7 +2,6 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Numerics;
 
 namespace i3dm.tile.tests
@@ -220,20 +219,19 @@ namespace i3dm.tile.tests
         public void WriteTreeBasicI3dmTest()
         {
             // arrange
-            var i3dmExpectedfile = File.OpenRead(@"testfixtures/tree.i3dm");
-            var i3dmExpected = I3dmReader.Read(i3dmExpectedfile);
-            var positions = i3dmExpected.Positions;
-            Assert.IsTrue(positions.Count == 25);
-
             var treeGlb = File.ReadAllBytes(@"testfixtures/tree.glb");
-            var two_positions = positions.Take(2).ToList();
-            var i3dm = new I3dm.Tile.I3dm(two_positions, treeGlb);
+            var mapbox_positions = new List<Vector3>();
+
+            mapbox_positions.Add(new Vector3(-8407346.9596f, 4743739.3031f, 38.29f));
+            mapbox_positions.Add(new Vector3(-8406181.2949f, 4744924.0771f, 38.29f));
+
+            var i3dm = new I3dm.Tile.I3dm(mapbox_positions, treeGlb);
             i3dm.BatchTableJson = "{\"Height\":[100,101]}";
             i3dm.FeatureTable.IsEastNorthUp = true;
-            // act
-            var result = @"tree_simple.i3dm";
-            I3dmWriter.Write(result, i3dm);
+            var result = @"tree.i3dm";
 
+            // act
+            I3dmWriter.Write(result, i3dm);
         }
     }
 }
