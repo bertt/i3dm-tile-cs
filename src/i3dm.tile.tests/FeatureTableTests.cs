@@ -39,7 +39,7 @@ namespace i3dm.tile.tests
 
             // assert
             Assert.IsTrue(featureTable.InstancesLength == 2);
-            Assert.IsTrue(featureTable.IsEastNorthUp== false);
+            Assert.IsTrue(featureTable.IsEastNorthUp== true);
             Assert.IsTrue(featureTable.PositionOffset.offset== 0);
         }
 

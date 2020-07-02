@@ -168,9 +168,8 @@ namespace i3dm.tile.tests
             var i3dmActualStream = File.OpenRead(@"testfixtures/barrel_actual.i3dm");
             var i3dmActual = I3dmReader.Read(i3dmActualStream);
 
-            // Assert.IsTrue(i3dmExpected.Equals(i3dmActual));
             Assert.IsTrue(i3dmActual.Positions.Count == 10);
-            Assert.IsTrue(i3dmActual.FeatureTable.IsEastNorthUp == false);
+            Assert.IsTrue(i3dmActual.FeatureTable.IsEastNorthUp == true);
             Assert.IsTrue(i3dmActual.Positions[0].Equals(i3dmExpected.Positions[0]));
             var stream = new MemoryStream(i3dmActual.GlbData);
             var glb = SharpGLTF.Schema2.ModelRoot.ReadGLB(stream);

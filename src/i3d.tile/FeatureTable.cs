@@ -6,6 +6,11 @@ namespace I3dm.Tile
     // todo: add POSITION_QUANTIZED, NORMAL_UP_OCT32P, NORMAL_RIGHT_OCT32P
     public class FeatureTable
     {
+        public FeatureTable()
+        {
+            IsEastNorthUp = true;
+        }
+
         [JsonPropertyName("INSTANCES_LENGTH")]
         public int InstancesLength { get; set; }
 
