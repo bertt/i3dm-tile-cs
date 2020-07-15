@@ -232,5 +232,29 @@ namespace i3dm.tile.tests
             // act
             I3dmWriter.Write(result, i3dm);
         }
+
+
+        [Test]
+        public void TestRotations()
+        {
+            var seatGlb = File.ReadAllBytes(@"testfixtures/stoel000.glb");
+            var positions = new List<Vector3>();
+            positions.Add(new Vector3(1214947.2f, -4736379f, 4081540.8f));
+
+            var i3dm = new I3dm.Tile.I3dm(positions, seatGlb);
+            i3dm.FeatureTable.IsEastNorthUp = true;
+
+            var rotationsUp = new List<Vector3>();
+            var rotationsRight = new List<Vector3>();
+            rotationsUp.Add(new Vector3(0.9686397001928082f, 0.24846957803801f,  0));
+            rotationsRight.Add(new Vector3(0.1598520208967612f, -0.6231709121869502f, -0.765575173068789f));
+            i3dm.NormalUps = rotationsUp;
+            i3dm.NormalRights = rotationsRight;
+
+            var result = @"seat_east.i3dm";
+
+            // act
+            I3dmWriter.Write(result, i3dm);
+        }
     }
 }
