@@ -68,7 +68,7 @@ namespace I3dm.Tile
             }
             if(RtcCenter != Vector3.Zero)
             {
-                FeatureTable.RtcCenterOffset = new ByteOffset() { offset = offset };
+                FeatureTable.RtcCenter = RtcCenter;
                 offset += RtcCenter.ToBytes().Count();
             }
             if (BatchIds != null)
@@ -78,6 +78,7 @@ namespace I3dm.Tile
             }
 
             var options = new JsonSerializerOptions() { IgnoreNullValues = true };
+            options.Converters.Add(new Vector3Converter());
             var featureTableJson = JsonSerializer.Serialize(FeatureTable, options);
             return featureTableJson;
         }

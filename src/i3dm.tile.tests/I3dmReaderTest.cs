@@ -13,19 +13,17 @@ namespace i3dm.tile.tests
 
 
         [Test]
-        public void ReadInvalidI3dmTest()
+        public void ReadInstancedRTCTest()
         {
             // arrange
-            var i3dmfile = File.OpenRead(@"testfixtures/tree_invalid.i3dm");
+            var i3dmfile = File.OpenRead(@"testfixtures/instancedRTC.i3dm");
             Assert.IsTrue(i3dmfile != null);
 
-            // act
             var i3dm = I3dmReader.Read(i3dmfile);
 
-            // assert
-            var validationErrors = i3dm.I3dmHeader.Validate();
-            Assert.IsTrue(validationErrors.Count == 3);
+            Assert.IsNotNull(i3dm);
         }
+
 
         [Test]
         public void InstancedAnimatedTest()
