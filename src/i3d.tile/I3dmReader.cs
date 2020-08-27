@@ -22,6 +22,7 @@ namespace I3dm.Tile
                 var glbBuffer = reader.ReadBytes(glbLength);
 
                 var serializeOptions = new JsonSerializerOptions();
+                serializeOptions.IgnoreNullValues = true;
                 serializeOptions.Converters.Add(new Vector3Converter());
                 var featureTable = JsonSerializer.Deserialize<FeatureTable>(featureTableJson.TrimEnd(), serializeOptions);
 

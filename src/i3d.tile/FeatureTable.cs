@@ -37,6 +37,6 @@ namespace I3dm.Tile
         public bool IsEastNorthUp { get; set; }
 
         [JsonPropertyName("RTC_CENTER")]
-        public Vector3 RtcCenter { get; set; }
+        public Vector3? RtcCenter { get; set; }
     }
 }

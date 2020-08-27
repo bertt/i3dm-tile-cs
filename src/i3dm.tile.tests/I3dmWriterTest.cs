@@ -202,7 +202,7 @@ namespace i3dm.tile.tests
             Assert.IsTrue(i3dmActual.I3dmHeader.Magic == "i3dm");
             Assert.IsTrue(i3dmActual.I3dmHeader.GltfFormat == 1);
             Assert.IsTrue(i3dmActual.I3dmHeader.BatchTableJsonByteLength == 88);
-            Assert.IsTrue(i3dmActual.I3dmHeader.FeatureTableJsonByteLength == 96); // 
+            Assert.IsTrue(i3dmActual.I3dmHeader.FeatureTableJsonByteLength == 72); 
             Assert.IsTrue(i3dmActual.I3dmHeader.BatchTableBinaryByteLength == 0);
             Assert.IsTrue(i3dmActual.Positions.Count == 25);
             Assert.IsTrue(i3dmActual.FeatureTable.IsEastNorthUp == true);
