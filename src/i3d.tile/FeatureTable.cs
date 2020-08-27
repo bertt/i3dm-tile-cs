@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Numerics;
+using System.Text.Json.Serialization;
 
 namespace I3dm.Tile
 {
@@ -36,6 +37,6 @@ namespace I3dm.Tile
         public bool IsEastNorthUp { get; set; }
 
         [JsonPropertyName("RTC_CENTER")]
-        public ByteOffset RtcCenterOffset{ get; set; }
+        public Vector3? RtcCenter { get; set; }
     }
 }

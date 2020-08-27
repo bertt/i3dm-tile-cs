@@ -8,6 +8,24 @@ namespace i3dm.tile.tests
 {
     public class FeatureTableTests
     {
+
+        [Test]
+        public void FeatureTableWithRtcCenterTest()
+        {
+            // arrange
+            var featureTableJson = @"{""INSTANCES_LENGTH"":25,""RTC_CENTER"":[1215013.8340490046,-4736316.75897742,4081608.4380407534],""EAST_NORTH_UP"":true,""POSITION"":{""byteOffset"":0}} ";
+
+            // act
+            var serializeOptions = new JsonSerializerOptions() { IgnoreNullValues = true };
+            serializeOptions.Converters.Add(new Vector3Converter());
+            var featureTable = JsonSerializer.Deserialize<FeatureTable>(featureTableJson,serializeOptions);
+
+            // assert
+            Assert.IsTrue(featureTable != null);
+            Assert.IsTrue(featureTable.InstancesLength == 25);
+            Assert.IsTrue(featureTable.RtcCenter.Equals(new Vector3(1215013.8340490046f, -4736316.75897742f, 4081608.4380407534f)));
+        }
+
         [Test]
         public void SerializeFeatureTablejsonTest()
         {
@@ -35,7 +53,9 @@ namespace i3dm.tile.tests
 
             // act
             var featureTableJson = i3dm.GetFeatureTableJson();
-            var featureTable = JsonSerializer.Deserialize<FeatureTable>(featureTableJson);
+            var serializeOptions = new JsonSerializerOptions() { IgnoreNullValues = true };
+            serializeOptions.Converters.Add(new Vector3Converter());
+            var featureTable = JsonSerializer.Deserialize<FeatureTable>(featureTableJson,serializeOptions);
 
             // assert
             Assert.IsTrue(featureTable.InstancesLength == 2);

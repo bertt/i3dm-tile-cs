@@ -40,15 +40,15 @@ namespace I3dm.Tile
             {
                 featureTableBinary.AddRange(batchIdBytes);
             }
-            if (!i3dm.RtcCenter.Equals(Vector3.Zero))
+            if (i3dm.RtcCenter != null)
             {
-                featureTableBinary.AddRange(i3dm.RtcCenter.ToBytes());
+                featureTableBinary.AddRange(((Vector3)i3dm.RtcCenter).ToBytes());
             }
             if (i3dm.BatchTableJson != string.Empty)
             {
                 i3dm.BatchTableJson = BufferPadding.AddPadding(i3dm.BatchTableJson);
             }
-            if (i3dm.BatchTableBinary!= null)
+            if (i3dm.BatchTableBinary != null)
             {
                 i3dm.BatchTableBinary = BufferPadding.AddPadding(i3dm.BatchTableBinary);
             }

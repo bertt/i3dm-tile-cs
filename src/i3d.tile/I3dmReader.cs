@@ -20,7 +20,11 @@ namespace I3dm.Tile
                 var batchTableBytes = reader.ReadBytes(i3dmHeader.BatchTableBinaryByteLength);
                 var glbLength = (int)(reader.BaseStream.Length - reader.BaseStream.Position);
                 var glbBuffer = reader.ReadBytes(glbLength);
-                var featureTable = JsonSerializer.Deserialize<FeatureTable>(featureTableJson);
+
+                var serializeOptions = new JsonSerializerOptions();
+                serializeOptions.IgnoreNullValues = true;
+                serializeOptions.Converters.Add(new Vector3Converter());
+                var featureTable = JsonSerializer.Deserialize<FeatureTable>(featureTableJson.TrimEnd(), serializeOptions);
 
                 var positions = GetVector3Collection(featureTable.InstancesLength, featureTable.PositionOffset.offset, featureTableBytes);
 
@@ -55,9 +59,9 @@ namespace I3dm.Tile
                 {
                     i3dm.Scales = GetFloatCollection(featureTable.InstancesLength, featureTable.ScaleOffset.offset, featureTableBytes);
                 }
-                if (featureTable.RtcCenterOffset != null)
+                if (featureTable.RtcCenter != null)
                 {
-                    i3dm.RtcCenter = GetVector3(featureTable.RtcCenterOffset.offset, featureTableBytes);
+                    i3dm.RtcCenter = featureTable.RtcCenter;
                 }
 
                 return i3dm;

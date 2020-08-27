@@ -38,7 +38,7 @@ namespace I3dm.Tile
         public List<Vector3> ScaleNonUniforms { get; set; }
         public List<float> Scales { get; set; }
         public List<int> BatchIds { get; set; }
-        public Vector3 RtcCenter { get; set; }
+        public Vector3? RtcCenter { get; set; }
 
         public string GetFeatureTableJson(string batchIdSerializeType = "UNSIGNED_SHORT", int batchIdBytesLength=0)
         {
@@ -66,10 +66,10 @@ namespace I3dm.Tile
                 FeatureTable.ScaleOffset = new ByteOffset() { offset = offset };
                 offset += Scales.ToBytes().Count();
             }
-            if(RtcCenter != Vector3.Zero)
+            if(RtcCenter != null)
             {
-                FeatureTable.RtcCenterOffset = new ByteOffset() { offset = offset };
-                offset += RtcCenter.ToBytes().Count();
+                FeatureTable.RtcCenter = RtcCenter;
+                offset += ((Vector3)RtcCenter).ToBytes().Count();
             }
             if (BatchIds != null)
             {
@@ -78,6 +78,7 @@ namespace I3dm.Tile
             }
 
             var options = new JsonSerializerOptions() { IgnoreNullValues = true };
+            options.Converters.Add(new Vector3Converter());
             var featureTableJson = JsonSerializer.Serialize(FeatureTable, options);
             return featureTableJson;
         }
