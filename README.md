@@ -71,6 +71,8 @@ QUANTIZED_VOLUME_OFFSET, QUANTIZED_VOLUME_SCALE, POSITION_QUANTIZED, NORMAL_UP_O
 
 ## History
 
+2020-08-27 - 0.3.2: add support for rtc_center for high precision positions
+
 2020-07-01 - 0.3.1: adding 8 byte padding requirements
 
 2020-06-29 - 0.3: adding FeatureTable batchIds formats (unsigned byte, unsigned short, unsigned int), scale and rtc_center
