@@ -19,8 +19,16 @@ namespace I3dm.Tile
 
         public I3dm(List<Vector3> positions, byte[] glb) : this()
         {
+            I3dmHeader.GltfFormat = 1;
             Positions = positions;
             GlbData = glb;
+        }
+
+        public I3dm(List<Vector3> positions, string glbUrl) : this()
+        {
+            I3dmHeader.GltfFormat = 0;
+            Positions = positions;
+            GlbUrl = glbUrl;
         }
 
         public I3dmHeader I3dmHeader { get; set; }
@@ -29,9 +37,8 @@ namespace I3dm.Tile
         public string BatchTableJson { get; set; }
         public byte[] BatchTableBinary { get; set; }
         public byte[] GlbData { get; set; }
-
+        public string GlbUrl { get; set; }
         public FeatureTable FeatureTable { get; set; }
-
         public List<Vector3> Positions { get; set; }
         public List<Vector3> NormalUps { get; set; }
         public List<Vector3> NormalRights { get; set; }

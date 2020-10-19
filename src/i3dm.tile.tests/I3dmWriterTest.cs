@@ -9,6 +9,29 @@ namespace i3dm.tile.tests
     public class I3dmWriterTest
     {
         [Test]
+        public void WriteI3dmWithExternalGltfTest()
+        {
+            var treeUrlGlb = "https://bertt.github.io/mapbox_3dtiles_samples/samples/instanced/trees_external_gltf/tree.glb";
+            var pos1 = new Vector3(100, 101, 102);
+            var pos2 = new Vector3(200, 201, 202);
+            var positions = new List<Vector3>() { pos1, pos2 };
+
+            var i3dm = new I3dm.Tile.I3dm(positions, treeUrlGlb);
+            i3dm.RtcCenter = new Vector3(100, 100, 100);
+            var result = @"tree_invalid.i3dm";
+
+            I3dmWriter.Write(result, i3dm);
+
+            var headerValidateErrors = i3dm.I3dmHeader.Validate();
+            Assert.IsTrue(headerValidateErrors.Count == 0);
+
+            var i3dmActualfile = File.OpenRead(result);
+            var i3dmActual = I3dmReader.Read(i3dmActualfile);
+            Assert.IsTrue(i3dmActual.GlbUrl == treeUrlGlb);
+            Assert.IsTrue(i3dmActual.RtcCenter.Equals(i3dm.RtcCenter));
+        }
+
+        [Test]
         public void WriteI3dmWithRtcCenterTest()
         {
             var treeGlb = File.ReadAllBytes(@"testfixtures/tree.glb");

@@ -1,6 +1,7 @@
 ﻿using I3dm.Tile;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.IO;
 using System.Numerics;
 using System.Text.Json;
 
@@ -48,7 +49,8 @@ namespace i3dm.tile.tests
             var positions = new List<Vector3>();
             positions.Add(new Vector3(0, 0, 0));
             positions.Add(new Vector3(1, 1, 1));
-            var i3dm = new I3dm.Tile.I3dm(positions, null);
+            var treeGlb = File.ReadAllBytes(@"barrel.glb");
+            var i3dm = new I3dm.Tile.I3dm(positions, treeGlb);
             i3dm.Positions = positions;
 
             // act

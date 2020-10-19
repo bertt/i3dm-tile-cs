@@ -28,16 +28,14 @@ namespace I3dm.Tile
 
                 var positions = GetVector3Collection(featureTable.InstancesLength, featureTable.PositionOffset.offset, featureTableBytes);
 
-                var i3dm = new I3dm(positions,glbBuffer)
-                {
-                    I3dmHeader = i3dmHeader,
-                    GlbData = glbBuffer,
-                    FeatureTableJson = featureTableJson,
-                    FeatureTableBinary = featureTableBytes,
-                    BatchTableJson = batchTableJson,
-                    BatchTableBinary = batchTableBytes,
-                    FeatureTable = featureTable
-                };
+                var i3dm = i3dmHeader.GltfFormat == 0 ?
+                    new I3dm(positions, Encoding.UTF8.GetString(glbBuffer)) : new I3dm(positions, glbBuffer);
+                i3dm.I3dmHeader = i3dmHeader;
+                i3dm.FeatureTableJson = featureTableJson;
+                i3dm.FeatureTableBinary = featureTableBytes;
+                i3dm.BatchTableJson = batchTableJson;
+                i3dm.BatchTableBinary = batchTableBytes;
+                i3dm.FeatureTable = featureTable;
 
                 if (featureTable.NormalUpOffset != null)
                 {

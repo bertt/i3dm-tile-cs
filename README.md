@@ -30,6 +30,14 @@ var i3dm = new I3dm.Tile.I3dm(positions, glb);
 I3dmWriter.Write("test.i3dm", i3dm);
 ```
 
+When writing an i3dm, also an external url can be provided to the glTF model instead of embedding the glTF in each tile:
+
+```
+var glbUrl = "http://myserver/test.glb";
+var i3dm = new I3dm.Tile.I3dm(positions, glbUrl);
+I3dmWriter.Write("test.i3dm", i3dm);
+```
+
 Batch Id's are written in the FeatureTable by default as type 'UNSIGNED_SHORT', sample to use 'UNSIGNED_BYTE':
 
 ```
@@ -63,13 +71,14 @@ Not implemented (yet):
 
 QUANTIZED_VOLUME_OFFSET, QUANTIZED_VOLUME_SCALE, POSITION_QUANTIZED, NORMAL_UP_OCT32P, NORMAL_RIGHT_OCT32P
 
-- gltfFormat as Uri
 
 ## Dependencies
 
 - System.Text.Json
 
 ## History
+
+2020-10-19: 0.3.3: add support for external glb (gltfFormat == 0)
 
 2020-08-27 - 0.3.2: add support for rtc_center for high precision positions
 

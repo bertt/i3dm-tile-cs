@@ -56,8 +56,11 @@ namespace I3dm.Tile
             i3dm.FeatureTableBinary = BufferPadding.AddPadding(featureTableBinary.ToArray());
 
             var header_length = 28;
+
+            var glbLength = i3dm.I3dmHeader.GltfFormat == 0 ? i3dm.GlbUrl.Length : i3dm.GlbData.Length;
+
             i3dm.I3dmHeader.ByteLength =
-                i3dm.GlbData.Length + header_length +
+                glbLength + header_length +
                 i3dm.FeatureTableJson.Length +
                 i3dm.BatchTableJson.Length +
                 i3dm.BatchTableBinary.Length +
@@ -78,11 +81,20 @@ namespace I3dm.Tile
                 binaryWriter.Write(i3dm.FeatureTableBinary);
             }
             binaryWriter.Write(Encoding.UTF8.GetBytes(i3dm.BatchTableJson));
+
             if (i3dm.BatchTableBinary != null)
             {
                 binaryWriter.Write(i3dm.BatchTableBinary);
             }
-            binaryWriter.Write(i3dm.GlbData);
+
+            if(i3dm.I3dmHeader.GltfFormat == 0)
+            {
+                binaryWriter.Write(Encoding.UTF8.GetBytes(i3dm.GlbUrl));
+            }
+            else
+            {
+                binaryWriter.Write(i3dm.GlbData);
+            }
             binaryWriter.Flush();
             binaryWriter.Close();
             return fileStream.Name;
