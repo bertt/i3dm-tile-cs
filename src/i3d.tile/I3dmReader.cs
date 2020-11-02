@@ -9,62 +9,70 @@ namespace I3dm.Tile
 {
     public struct I3dmReader
     {
+        public static I3dm Read(BinaryReader reader)
+        {
+            var i3dmHeader = new I3dmHeader(reader);
+            var featureTableJson = Encoding.UTF8.GetString(reader.ReadBytes(i3dmHeader.FeatureTableJsonByteLength));
+            var featureTableBytes = reader.ReadBytes(i3dmHeader.FeatureTableBinaryByteLength);
+            var batchTableJson = Encoding.UTF8.GetString(reader.ReadBytes(i3dmHeader.BatchTableJsonByteLength));
+            var batchTableBytes = reader.ReadBytes(i3dmHeader.BatchTableBinaryByteLength);
+
+            var glbLength = i3dmHeader.ByteLength - i3dmHeader.Length;
+            var glbBuffer = reader.ReadBytes(glbLength);
+
+            var serializeOptions = new JsonSerializerOptions();
+            serializeOptions.IgnoreNullValues = true;
+            serializeOptions.Converters.Add(new Vector3Converter());
+            var featureTable = JsonSerializer.Deserialize<FeatureTable>(featureTableJson.TrimEnd(), serializeOptions);
+
+            var positions = GetVector3Collection(featureTable.InstancesLength, featureTable.PositionOffset.offset, featureTableBytes);
+
+            var i3dm = i3dmHeader.GltfFormat == 0 ?
+                new I3dm(positions, Encoding.UTF8.GetString(glbBuffer)) : new I3dm(positions, glbBuffer);
+            i3dm.I3dmHeader = i3dmHeader;
+            i3dm.FeatureTableJson = featureTableJson;
+            i3dm.FeatureTableBinary = featureTableBytes;
+            i3dm.BatchTableJson = batchTableJson;
+            i3dm.BatchTableBinary = batchTableBytes;
+            i3dm.FeatureTable = featureTable;
+
+            if (featureTable.NormalUpOffset != null)
+            {
+                i3dm.NormalUps = GetVector3Collection(featureTable.InstancesLength, featureTable.NormalUpOffset.offset, featureTableBytes);
+            }
+            if (featureTable.NormalRightOffset != null)
+            {
+                i3dm.NormalRights = GetVector3Collection(featureTable.InstancesLength, featureTable.NormalRightOffset.offset, featureTableBytes);
+            }
+            if (featureTable.ScaleNonUniformOffset != null)
+            {
+                i3dm.ScaleNonUniforms= GetVector3Collection(featureTable.InstancesLength, featureTable.ScaleNonUniformOffset.offset, featureTableBytes);
+            }
+            if (featureTable.BatchIdOffset != null)
+            {
+                i3dm.BatchIds = GetBatchIdCollection(featureTable.InstancesLength, featureTable.BatchIdOffset.offset, featureTableBytes, featureTable.BatchIdOffset.componentType);
+            }
+            if (featureTable.ScaleOffset != null)
+            {
+                i3dm.Scales = GetFloatCollection(featureTable.InstancesLength, featureTable.ScaleOffset.offset, featureTableBytes);
+            }
+            if (featureTable.RtcCenter != null)
+            {
+                i3dm.RtcCenter = featureTable.RtcCenter;
+            }
+
+            return i3dm;
+        }
+
         public static I3dm Read(Stream stream)
         {
             using (var reader = new BinaryReader(stream))
             {
-                var i3dmHeader = new I3dmHeader(reader);
-                var featureTableJson = Encoding.UTF8.GetString(reader.ReadBytes(i3dmHeader.FeatureTableJsonByteLength));
-                var featureTableBytes = reader.ReadBytes(i3dmHeader.FeatureTableBinaryByteLength);
-                var batchTableJson = Encoding.UTF8.GetString(reader.ReadBytes(i3dmHeader.BatchTableJsonByteLength));
-                var batchTableBytes = reader.ReadBytes(i3dmHeader.BatchTableBinaryByteLength);
-                var glbLength = (int)(reader.BaseStream.Length - reader.BaseStream.Position);
-                var glbBuffer = reader.ReadBytes(glbLength);
-
-                var serializeOptions = new JsonSerializerOptions();
-                serializeOptions.IgnoreNullValues = true;
-                serializeOptions.Converters.Add(new Vector3Converter());
-                var featureTable = JsonSerializer.Deserialize<FeatureTable>(featureTableJson.TrimEnd(), serializeOptions);
-
-                var positions = GetVector3Collection(featureTable.InstancesLength, featureTable.PositionOffset.offset, featureTableBytes);
-
-                var i3dm = i3dmHeader.GltfFormat == 0 ?
-                    new I3dm(positions, Encoding.UTF8.GetString(glbBuffer)) : new I3dm(positions, glbBuffer);
-                i3dm.I3dmHeader = i3dmHeader;
-                i3dm.FeatureTableJson = featureTableJson;
-                i3dm.FeatureTableBinary = featureTableBytes;
-                i3dm.BatchTableJson = batchTableJson;
-                i3dm.BatchTableBinary = batchTableBytes;
-                i3dm.FeatureTable = featureTable;
-
-                if (featureTable.NormalUpOffset != null)
-                {
-                    i3dm.NormalUps = GetVector3Collection(featureTable.InstancesLength, featureTable.NormalUpOffset.offset, featureTableBytes);
-                }
-                if (featureTable.NormalRightOffset != null)
-                {
-                    i3dm.NormalRights = GetVector3Collection(featureTable.InstancesLength, featureTable.NormalRightOffset.offset, featureTableBytes);
-                }
-                if (featureTable.ScaleNonUniformOffset != null)
-                {
-                    i3dm.ScaleNonUniforms= GetVector3Collection(featureTable.InstancesLength, featureTable.ScaleNonUniformOffset.offset, featureTableBytes);
-                }
-                if (featureTable.BatchIdOffset != null)
-                {
-                    i3dm.BatchIds = GetBatchIdCollection(featureTable.InstancesLength, featureTable.BatchIdOffset.offset, featureTableBytes, featureTable.BatchIdOffset.componentType);
-                }
-                if (featureTable.ScaleOffset != null)
-                {
-                    i3dm.Scales = GetFloatCollection(featureTable.InstancesLength, featureTable.ScaleOffset.offset, featureTableBytes);
-                }
-                if (featureTable.RtcCenter != null)
-                {
-                    i3dm.RtcCenter = featureTable.RtcCenter;
-                }
-
-                return i3dm;
+                var b3dm = Read(reader);
+                return b3dm;
             }
         }
+
 
         private static List<float> GetFloatCollection(int instances, int offset, byte[] featureTable)
         {

@@ -42,6 +42,14 @@ namespace I3dm.Tile
             GltfFormat = (int)reader.ReadUInt32();
         }
 
+        public int Length
+        {
+            get
+            {
+                return 28 + FeatureTableJsonByteLength + FeatureTableBinaryByteLength + BatchTableJsonByteLength + BatchTableBinaryByteLength;
+            }
+        }
+
         public byte[] AsBinary()
         {
             var magicBytes = Encoding.UTF8.GetBytes(Magic);

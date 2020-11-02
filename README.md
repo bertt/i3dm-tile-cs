@@ -78,7 +78,9 @@ QUANTIZED_VOLUME_OFFSET, QUANTIZED_VOLUME_SCALE, POSITION_QUANTIZED, NORMAL_UP_O
 
 ## History
 
-2020-10-19: 0.3.3: add support for external glb (gltfFormat == 0)
+2020-11-02 - 0.4: add support for composite tiles (cmpt)
+
+2020-10-19 - 0.3.3: add support for external glb (gltfFormat == 0)
 
 2020-08-27 - 0.3.2: add support for rtc_center for high precision positions
 
