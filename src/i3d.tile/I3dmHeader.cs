@@ -46,7 +46,7 @@ namespace I3dm.Tile
         {
             get
             {
-                return 28 + FeatureTableJsonByteLength + FeatureTableBinaryByteLength + BatchTableJsonByteLength + BatchTableBinaryByteLength;
+                return 32 + FeatureTableJsonByteLength + FeatureTableBinaryByteLength + BatchTableJsonByteLength + BatchTableBinaryByteLength;
             }
         }
 
