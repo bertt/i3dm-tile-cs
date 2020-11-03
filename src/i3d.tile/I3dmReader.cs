@@ -66,11 +66,9 @@ namespace I3dm.Tile
 
         public static I3dm Read(Stream stream)
         {
-            using (var reader = new BinaryReader(stream))
-            {
-                var b3dm = Read(reader);
-                return b3dm;
-            }
+            var reader = new BinaryReader(stream);
+            var i3dm = Read(reader);
+            return i3dm;
         }
 
 
