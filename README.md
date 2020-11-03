@@ -27,7 +27,7 @@ instance NormalUps, NormalRights, Scales and ScaleNonUniforms can be provided.
 
 ```
 var i3dm = new I3dm.Tile.I3dm(positions, glb);
-I3dmWriter.Write("test.i3dm", i3dm);
+var bytes = I3dmWriter.Write(i3dm);
 ```
 
 When writing an i3dm, also an external url can be provided to the glTF model instead of embedding the glTF in each tile:
@@ -35,7 +35,7 @@ When writing an i3dm, also an external url can be provided to the glTF model ins
 ```
 var glbUrl = "http://myserver/test.glb";
 var i3dm = new I3dm.Tile.I3dm(positions, glbUrl);
-I3dmWriter.Write("test.i3dm", i3dm);
+var bytes = I3dmWriter.Write(i3dm);
 ```
 
 Batch Id's are written in the FeatureTable by default as type 'UNSIGNED_SHORT', sample to use 'UNSIGNED_BYTE':
@@ -44,7 +44,7 @@ Batch Id's are written in the FeatureTable by default as type 'UNSIGNED_SHORT', 
 var batchIds = new List<int>() { 0, 1 };
 var i3dm = new I3dm.Tile.I3dm(positions, glb);
 i3dm.BatchIds = batchIds;
-I3dmWriter.Write("test.i3dm", i3dm, "UNSIGNED_BYTE");
+var bytes = I3dmWriter.Write(i3dm, "UNSIGNED_BYTE");
 ```
 
 ## Benchmarks
