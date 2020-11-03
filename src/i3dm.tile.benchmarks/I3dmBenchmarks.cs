@@ -26,9 +26,7 @@ namespace i3dm.tile.benchmarks
 
             var i3dm = new I3dm.Tile.I3dm(positions, treeGlb);
             i3dm.RtcCenter = new Vector3(100, 100, 100);
-            var result = @"barrel_new.i3dm";
-            I3dmWriter.Write(result, i3dm);
-
+            I3dmWriter.Write(i3dm);
         }
     }
 }

@@ -16,15 +16,6 @@ namespace I3dm.Tile
             return stream.ToArray();
         }
 
-        public static string Write(string path, I3dm i3dm, string batchIdSerializeType = "UNSIGNED_SHORT")
-        {
-            UpdateProperties(i3dm, batchIdSerializeType);
-
-            var fileStream = File.Open(path, FileMode.Create);
-            WriteToStream(i3dm, fileStream);
-            return fileStream.Name;
-        }
-
         private static void WriteToStream(I3dm i3dm, Stream stream)
         {
             var binaryWriter = new BinaryWriter(stream);

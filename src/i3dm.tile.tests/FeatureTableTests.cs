@@ -49,7 +49,7 @@ namespace i3dm.tile.tests
             var positions = new List<Vector3>();
             positions.Add(new Vector3(0, 0, 0));
             positions.Add(new Vector3(1, 1, 1));
-            var treeGlb = File.ReadAllBytes(@"barrel.glb");
+            var treeGlb = File.ReadAllBytes(@"testfixtures/barrel.glb");
             var i3dm = new I3dm.Tile.I3dm(positions, treeGlb);
             i3dm.Positions = positions;
 

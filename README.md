@@ -78,6 +78,10 @@ QUANTIZED_VOLUME_OFFSET, QUANTIZED_VOLUME_SCALE, POSITION_QUANTIZED, NORMAL_UP_O
 
 ## History
 
+2020-11-04 - 0.5: Breaking change: void I3dmWriter.Write(string path, I3dm i3dm) -> byte[] I3dmWriter.Write(I3dm i3dm)
+
+2020-11-02 - 0.4.2: add write to stream
+
 2020-11-02 - 0.4.1: add support for composite tiles (cmpt)
 
 2020-10-19 - 0.3.3: add support for external glb (gltfFormat == 0)
@@ -91,4 +95,3 @@ QUANTIZED_VOLUME_OFFSET, QUANTIZED_VOLUME_SCALE, POSITION_QUANTIZED, NORMAL_UP_O
 2020-06-25 - 0.2: Adding writing i3dm tiles
 
 2020-06-22 - 0.1: Initial version - reading i3dm tiles
-
