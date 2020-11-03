@@ -8,7 +8,52 @@ namespace I3dm.Tile
 {
     public struct I3dmWriter
     {
+        public static byte[] Write(I3dm i3dm, string batchIdSerializeType = "UNSIGNED_SHORT")
+        {
+            UpdateProperties(i3dm, batchIdSerializeType);
+            var stream = new MemoryStream();
+            WriteToStream(i3dm, stream);
+            return stream.ToArray();
+        }
+
         public static string Write(string path, I3dm i3dm, string batchIdSerializeType = "UNSIGNED_SHORT")
+        {
+            UpdateProperties(i3dm, batchIdSerializeType);
+
+            var fileStream = File.Open(path, FileMode.Create);
+            WriteToStream(i3dm, fileStream);
+            return fileStream.Name;
+        }
+
+        private static void WriteToStream(I3dm i3dm, Stream stream)
+        {
+            var binaryWriter = new BinaryWriter(stream);
+            binaryWriter.Write(i3dm.I3dmHeader.AsBinary());
+            binaryWriter.Write(Encoding.UTF8.GetBytes(i3dm.FeatureTableJson));
+            if (i3dm.FeatureTableBinary != null)
+            {
+                binaryWriter.Write(i3dm.FeatureTableBinary);
+            }
+            binaryWriter.Write(Encoding.UTF8.GetBytes(i3dm.BatchTableJson));
+
+            if (i3dm.BatchTableBinary != null)
+            {
+                binaryWriter.Write(i3dm.BatchTableBinary);
+            }
+
+            if (i3dm.I3dmHeader.GltfFormat == 0)
+            {
+                binaryWriter.Write(Encoding.UTF8.GetBytes(i3dm.GlbUrl));
+            }
+            else
+            {
+                binaryWriter.Write(i3dm.GlbData);
+            }
+            binaryWriter.Flush();
+            binaryWriter.Close();
+        }
+
+        private static void UpdateProperties(I3dm i3dm, string batchIdSerializeType)
         {
             var batchIdBytes = new byte[0];
             if (i3dm.BatchIds != null)
@@ -71,33 +116,6 @@ namespace I3dm.Tile
             i3dm.I3dmHeader.BatchTableJsonByteLength = i3dm.BatchTableJson.Length;
             i3dm.I3dmHeader.FeatureTableBinaryByteLength = i3dm.FeatureTableBinary.Length;
             i3dm.I3dmHeader.BatchTableBinaryByteLength = i3dm.BatchTableBinary.Length;
-
-            var fileStream = File.Open(path, FileMode.Create);
-            var binaryWriter = new BinaryWriter(fileStream);
-            binaryWriter.Write(i3dm.I3dmHeader.AsBinary());
-            binaryWriter.Write(Encoding.UTF8.GetBytes(i3dm.FeatureTableJson));
-            if (i3dm.FeatureTableBinary != null)
-            {
-                binaryWriter.Write(i3dm.FeatureTableBinary);
-            }
-            binaryWriter.Write(Encoding.UTF8.GetBytes(i3dm.BatchTableJson));
-
-            if (i3dm.BatchTableBinary != null)
-            {
-                binaryWriter.Write(i3dm.BatchTableBinary);
-            }
-
-            if(i3dm.I3dmHeader.GltfFormat == 0)
-            {
-                binaryWriter.Write(Encoding.UTF8.GetBytes(i3dm.GlbUrl));
-            }
-            else
-            {
-                binaryWriter.Write(i3dm.GlbData);
-            }
-            binaryWriter.Flush();
-            binaryWriter.Close();
-            return fileStream.Name;
         }
 
         private static byte[] GetBatchIdsBytes(List<int> inputs, string batchIdSerializeType)

@@ -8,15 +8,33 @@ namespace i3dm.tile.tests
 {
     public class I3dmWriterTest
     {
+        private static string treeUrlGlb = "https://bertt.github.io/mapbox_3dtiles_samples/samples/instanced/trees_external_gltf/tree.glb";
+
+        [Test]
+        public void WriteToBytesTest()
+        {
+            // arrange
+            var i3dm = GetTestI3dm(treeUrlGlb);
+
+            // act
+            var bytes = I3dmWriter.Write(i3dm);
+
+            // assert
+            Assert.IsTrue(bytes.Length > 0);
+
+            // and try to recreate i3dm
+            var stream = new MemoryStream(bytes);
+            var i3dmRound = I3dmReader.Read(stream);
+
+            // assert again
+            Assert.IsTrue(i3dmRound.Positions.Count == 2);
+            Assert.IsTrue(i3dmRound.GlbUrl == treeUrlGlb);
+        }
+
         [Test]
         public void WriteI3dmWithExternalGltfTest()
         {
-            var treeUrlGlb = "https://bertt.github.io/mapbox_3dtiles_samples/samples/instanced/trees_external_gltf/tree.glb";
-            var pos1 = new Vector3(100, 101, 102);
-            var pos2 = new Vector3(200, 201, 202);
-            var positions = new List<Vector3>() { pos1, pos2 };
-
-            var i3dm = new I3dm.Tile.I3dm(positions, treeUrlGlb);
+            var i3dm = GetTestI3dm(treeUrlGlb);
             i3dm.RtcCenter = new Vector3(100, 100, 100);
             var result = @"tree_invalid.i3dm";
 
@@ -29,6 +47,16 @@ namespace i3dm.tile.tests
             var i3dmActual = I3dmReader.Read(i3dmActualfile);
             Assert.IsTrue(i3dmActual.GlbUrl == treeUrlGlb);
             Assert.IsTrue(i3dmActual.RtcCenter.Equals(i3dm.RtcCenter));
+        }
+
+        private static I3dm.Tile.I3dm GetTestI3dm(string treeUrlGlb)
+        {
+            var pos1 = new Vector3(100, 101, 102);
+            var pos2 = new Vector3(200, 201, 202);
+            var positions = new List<Vector3>() { pos1, pos2 };
+
+            var i3dm = new I3dm.Tile.I3dm(positions, treeUrlGlb);
+            return i3dm;
         }
 
         [Test]
