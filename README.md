@@ -78,6 +78,8 @@ QUANTIZED_VOLUME_OFFSET, QUANTIZED_VOLUME_SCALE, POSITION_QUANTIZED, NORMAL_UP_O
 
 ## History
 
+2021-09-23 - 0.5.1 Add padding rules
+
 2020-11-04 - 0.5: Breaking change: void I3dmWriter.Write(string path, I3dm i3dm) -> byte[] I3dmWriter.Write(I3dm i3dm)
 
 2020-11-02 - 0.4.2: add write to stream
