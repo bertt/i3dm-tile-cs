@@ -22,13 +22,16 @@ namespace i3dm.tile.tests
             // assert
             Assert.IsTrue(bytes.Length > 0);
 
+            // check padding rules
+            Assert.IsTrue(bytes.Length % 8 == 0);
+
             // and try to recreate i3dm
             var stream = new MemoryStream(bytes);
             var i3dmRound = I3dmReader.Read(stream);
 
             // assert again
             Assert.IsTrue(i3dmRound.Positions.Count == 2);
-            Assert.IsTrue(i3dmRound.GlbUrl == treeUrlGlb);
+            Assert.IsTrue(i3dmRound.GlbUrl.StartsWith(treeUrlGlb));
         }
 
         [Test]
@@ -46,7 +49,7 @@ namespace i3dm.tile.tests
             Assert.IsTrue(headerValidateErrors.Count == 0);
 
             var i3dmActual = I3dmReader.Read(new MemoryStream(bytes));
-            Assert.IsTrue(i3dmActual.GlbUrl == treeUrlGlb);
+            Assert.IsTrue(i3dmActual.GlbUrl.StartsWith(treeUrlGlb));
             Assert.IsTrue(i3dmActual.RtcCenter.Equals(i3dm.RtcCenter));
         }
 

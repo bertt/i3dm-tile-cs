@@ -20,6 +20,7 @@ namespace I3dm.Tile
         {
             var binaryWriter = new BinaryWriter(stream);
             binaryWriter.Write(i3dm.I3dmHeader.AsBinary());
+
             binaryWriter.Write(Encoding.UTF8.GetBytes(i3dm.FeatureTableJson));
             if (i3dm.FeatureTableBinary != null)
             {
@@ -92,6 +93,15 @@ namespace I3dm.Tile
             i3dm.FeatureTableBinary = BufferPadding.AddPadding(featureTableBinary.ToArray());
 
             var header_length = 28;
+
+            if(i3dm.I3dmHeader.GltfFormat == 0)
+            {
+                i3dm.GlbUrl = BufferPadding.AddPadding(i3dm.GlbUrl);
+            }
+            else
+            {
+                i3dm.GlbData = BufferPadding.AddPadding(i3dm.GlbData);
+            }
 
             var glbLength = i3dm.I3dmHeader.GltfFormat == 0 ? i3dm.GlbUrl.Length : i3dm.GlbData.Length;
 

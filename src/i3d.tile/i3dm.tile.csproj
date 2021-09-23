@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>I3dm.Tile</RootNamespace>
-    <Version>0.5</Version>
+    <Version>0.5.1</Version>
     <Authors>Bert Temme</Authors>
     <Company />
     <Description>Read/Write instanced 3D Tile models</Description>
@@ -12,11 +12,11 @@
     <RepositoryUrl>https://github.com/bertt/i3dm-tile-cs</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>3dtile gltf</PackageTags>
-    <PackageReleaseNotes>add write to memorystream</PackageReleaseNotes>
+    <PackageReleaseNotes>add padding rules</PackageReleaseNotes>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Copyright>Bert Temme</Copyright>
-    <AssemblyVersion>0.5.0.0</AssemblyVersion>
-    <FileVersion>0.5.0.0</FileVersion>
+    <AssemblyVersion>0.5.1.0</AssemblyVersion>
+    <FileVersion>0.5.1.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
