@@ -108,13 +108,13 @@ namespace I3dm.Tile
             i3dm.I3dmHeader.ByteLength =
                 glbLength + header_length +
                 i3dm.FeatureTableJson.Length +
-                i3dm.BatchTableJson.Length +
+                Encoding.UTF8.GetByteCount(i3dm.BatchTableJson) +
                 i3dm.BatchTableBinary.Length +
                 i3dm.FeatureTableBinary.Length +
                 BitConverter.GetBytes(i3dm.I3dmHeader.GltfFormat).Length;
 
             i3dm.I3dmHeader.FeatureTableJsonByteLength = i3dm.FeatureTableJson.Length;
-            i3dm.I3dmHeader.BatchTableJsonByteLength = i3dm.BatchTableJson.Length;
+            i3dm.I3dmHeader.BatchTableJsonByteLength = Encoding.UTF8.GetByteCount(i3dm.BatchTableJson);
             i3dm.I3dmHeader.FeatureTableBinaryByteLength = i3dm.FeatureTableBinary.Length;
             i3dm.I3dmHeader.BatchTableBinaryByteLength = i3dm.BatchTableBinary.Length;
         }
