@@ -1,6 +1,6 @@
 # i3dm-tile-cs
 
-Reader/Writer for Instanced 3DTiles (i3dm)
+.NET 6 library for reading/writing Instanced 3DTiles (i3dm)
 
 i3dm specs:
 
@@ -77,6 +77,8 @@ QUANTIZED_VOLUME_OFFSET, QUANTIZED_VOLUME_SCALE, POSITION_QUANTIZED, NORMAL_UP_O
 - System.Text.Json
 
 ## History
+
+2022-12-08 - 1.0 to .NET 6
 
 2021-09-23 - 0.5.1 Add padding rules
 

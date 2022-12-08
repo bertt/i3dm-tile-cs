@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>I3dm.Tile</RootNamespace>
-    <Version>0.5.1</Version>
+    <Version>1.0</Version>
     <Authors>Bert Temme</Authors>
     <Company />
     <Description>Read/Write instanced 3D Tile models</Description>
@@ -15,8 +15,8 @@
     <PackageReleaseNotes>add padding rules</PackageReleaseNotes>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Copyright>Bert Temme</Copyright>
-    <AssemblyVersion>0.5.1.0</AssemblyVersion>
-    <FileVersion>0.5.1.0</FileVersion>
+    <AssemblyVersion>1.0</AssemblyVersion>
+    <FileVersion>1.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>

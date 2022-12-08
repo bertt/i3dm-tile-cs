@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Numerics;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace i3dm.tile.tests
 {
@@ -17,7 +18,7 @@ namespace i3dm.tile.tests
             var featureTableJson = @"{""INSTANCES_LENGTH"":25,""RTC_CENTER"":[1215013.8340490046,-4736316.75897742,4081608.4380407534],""EAST_NORTH_UP"":true,""POSITION"":{""byteOffset"":0}} ";
 
             // act
-            var serializeOptions = new JsonSerializerOptions() { IgnoreNullValues = true };
+            var serializeOptions = new JsonSerializerOptions() { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull};
             serializeOptions.Converters.Add(new Vector3Converter());
             var featureTable = JsonSerializer.Deserialize<FeatureTable>(featureTableJson,serializeOptions);
 
@@ -55,7 +56,7 @@ namespace i3dm.tile.tests
 
             // act
             var featureTableJson = i3dm.GetFeatureTableJson();
-            var serializeOptions = new JsonSerializerOptions() { IgnoreNullValues = true };
+            var serializeOptions = new JsonSerializerOptions() { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull };
             serializeOptions.Converters.Add(new Vector3Converter());
             var featureTable = JsonSerializer.Deserialize<FeatureTable>(featureTableJson,serializeOptions);
 

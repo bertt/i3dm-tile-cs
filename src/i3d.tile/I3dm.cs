@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Numerics;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace I3dm.Tile
 {
@@ -84,7 +85,7 @@ namespace I3dm.Tile
                 // not needed beacuse last one: offset += batchIdBytesLength;
             }
 
-            var options = new JsonSerializerOptions() { IgnoreNullValues = true };
+            var options = new JsonSerializerOptions() { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull};
             options.Converters.Add(new Vector3Converter());
             var featureTableJson = JsonSerializer.Serialize(FeatureTable, options);
             return featureTableJson;

@@ -4,6 +4,7 @@ using System.IO;
 using System.Numerics;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace I3dm.Tile
 {
@@ -21,7 +22,7 @@ namespace I3dm.Tile
             var glbBuffer = reader.ReadBytes(glbLength);
 
             var serializeOptions = new JsonSerializerOptions();
-            serializeOptions.IgnoreNullValues = true;
+            serializeOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
             serializeOptions.Converters.Add(new Vector3Converter());
             var featureTable = JsonSerializer.Deserialize<FeatureTable>(featureTableJson.TrimEnd(), serializeOptions);
 
