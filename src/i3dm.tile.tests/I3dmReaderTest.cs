@@ -1,4 +1,5 @@
 using I3dm.Tile;
+using Microsoft.VisualStudio.TestPlatform.PlatformAbstractions.Interfaces;
 using NUnit.Framework;
 using SharpGLTF.Validation;
 using System.IO;
@@ -10,7 +11,6 @@ namespace i3dm.tile.tests
     {
         string expectedMagicHeader = "i3dm";
         int expectedVersionHeader = 1;
-
 
         [Test]
         public void ReadInstancedRTCTest()
