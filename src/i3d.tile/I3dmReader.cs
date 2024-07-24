@@ -32,7 +32,7 @@ namespace I3dm.Tile
             var positions = GetVector3Collection(featureTable.InstancesLength, featureTable.PositionOffset.offset, featureTableBytes);
 
             var i3dm = i3dmHeader.GltfFormat == 0 ? 
-                new I3dm(positions, Encoding.UTF8.GetString(glbBuffer)) : 
+                new I3dm(positions, Encoding.UTF8.GetString(glbBuffer).TrimEnd()) : 
                 new I3dm(positions, glbBuffer);
 
             if (i3dmHeader.GltfFormat == 0)
@@ -52,6 +52,7 @@ namespace I3dm.Tile
                     glbBuffer = glbBuffer.Take(glbLength).ToArray();
                     i3dm.HasPadding = true;
                 }
+                i3dm.GlbData= glbBuffer;
             }
 
             i3dm.I3dmHeader = i3dmHeader;

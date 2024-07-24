@@ -78,6 +78,8 @@ QUANTIZED_VOLUME_OFFSET, QUANTIZED_VOLUME_SCALE, POSITION_QUANTIZED, NORMAL_UP_O
 
 ## History
 
+2024-07-24 - 1.1.3 Fix reading I3dm with glb padding
+
 2024-07-24 - 1.1.2 Fix reading I3dm with external uri (gltfFormat == 0)
 
 2024-07-24 - 1.1.1 Fix reading I3dm with padding bytes

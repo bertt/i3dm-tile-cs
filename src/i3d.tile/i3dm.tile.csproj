@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <RootNamespace>I3dm.Tile</RootNamespace>
-    <Version>1.1.2</Version>
+    <Version>1.1.3</Version>
     <Authors>Bert Temme</Authors>
     <Company />
     <Description>Read/Write instanced 3D Tile models</Description>
