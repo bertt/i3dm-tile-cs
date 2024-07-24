@@ -13,7 +13,6 @@ namespace I3dm.Tile
     {
         public static I3dm Read(BinaryReader reader)
         {
-            bool hasPadding = false;    
             var i3dmHeader = new I3dmHeader(reader);
             var featureTableJson = Encoding.UTF8.GetString(reader.ReadBytes(i3dmHeader.FeatureTableJsonByteLength));
             var featureTableBytes = reader.ReadBytes(i3dmHeader.FeatureTableBinaryByteLength);
@@ -23,15 +22,7 @@ namespace I3dm.Tile
             // the rest of the file is the glb
             var glbMaxLength = i3dmHeader.ByteLength - i3dmHeader.Length;
             var glbBuffer = reader.ReadBytes(glbMaxLength);
-            // but we get the length from the glb itself
-            var glbLength = BitConverter.ToInt32(glbBuffer, 8);
 
-            // if the glb is shorter than the expected length, we need to trim the buffer
-            if (glbLength < glbMaxLength)
-            {
-                glbBuffer = glbBuffer.Take(glbLength).ToArray();
-                hasPadding = true;
-            }
 
             var serializeOptions = new JsonSerializerOptions();
             serializeOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
@@ -40,9 +31,29 @@ namespace I3dm.Tile
 
             var positions = GetVector3Collection(featureTable.InstancesLength, featureTable.PositionOffset.offset, featureTableBytes);
 
-            var i3dm = i3dmHeader.GltfFormat == 0 ?
-                new I3dm(positions, Encoding.UTF8.GetString(glbBuffer)) : new I3dm(positions, glbBuffer);
-            i3dm.HasPadding = hasPadding;
+            var i3dm = i3dmHeader.GltfFormat == 0 ? 
+                new I3dm(positions, Encoding.UTF8.GetString(glbBuffer)) : 
+                new I3dm(positions, glbBuffer);
+
+            if (i3dmHeader.GltfFormat == 0)
+            {
+                // if the glb is a uri
+                var uri = Encoding.UTF8.GetString(glbBuffer).TrimEnd();
+                i3dm.Uri = uri;
+            }
+            else
+            {
+                // but we get the length from the glb itself
+                var glbLength = BitConverter.ToInt32(glbBuffer, 8);
+
+                // if the glb is shorter than the expected length, we need to trim the buffer
+                if (glbLength < glbMaxLength)
+                {
+                    glbBuffer = glbBuffer.Take(glbLength).ToArray();
+                    i3dm.HasPadding = true;
+                }
+            }
+
             i3dm.I3dmHeader = i3dmHeader;
             i3dm.FeatureTableJson = featureTableJson;
             i3dm.FeatureTableBinary = featureTableBytes;

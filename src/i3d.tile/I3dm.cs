@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Text.Json;
@@ -48,6 +49,7 @@ namespace I3dm.Tile
         public List<int> BatchIds { get; set; }
         public Vector3? RtcCenter { get; set; }
         public bool HasPadding { get; set; }
+        public string Uri { get; set; }
 
         public string GetFeatureTableJson(string batchIdSerializeType = "UNSIGNED_SHORT", int batchIdBytesLength=0)
         {
