@@ -47,6 +47,7 @@ namespace I3dm.Tile
         public List<float> Scales { get; set; }
         public List<int> BatchIds { get; set; }
         public Vector3? RtcCenter { get; set; }
+        public bool HasPadding { get; set; }
 
         public string GetFeatureTableJson(string batchIdSerializeType = "UNSIGNED_SHORT", int batchIdBytesLength=0)
         {

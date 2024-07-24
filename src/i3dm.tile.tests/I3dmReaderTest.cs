@@ -1,5 +1,4 @@
 using I3dm.Tile;
-using Microsoft.VisualStudio.TestPlatform.PlatformAbstractions.Interfaces;
 using NUnit.Framework;
 using SharpGLTF.Validation;
 using System.IO;
@@ -12,6 +11,13 @@ namespace i3dm.tile.tests
         string expectedMagicHeader = "i3dm";
         int expectedVersionHeader = 1;
 
+        [Test]
+        public void Test1232()
+        {
+            var i3dmfile = File.OpenRead(@"testfixtures/i3dm.withpadding.i3dm");
+            var i3dm = I3dmReader.Read(i3dmfile);
+            Assert.That(i3dm.HasPadding);
+        }
         [Test]
         public void ReadInstancedRTCTest()
         {
