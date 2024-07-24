@@ -11,7 +11,7 @@ namespace i3dm.tile.tests
 
             var featureTableJson = "{\"INSTANCES_LENGTH\":2,\"POSITION\":{\"byteOffset\":0},\"EAST_NORTH_UP\":false,\"RTC_CENTER\":[10,10,10]}";
             var paddedJson = BufferPadding.AddPadding(featureTableJson);
-            Assert.IsTrue(paddedJson == "{\"INSTANCES_LENGTH\":2,\"POSITION\":{\"byteOffset\":0},\"EAST_NORTH_UP\":false,\"RTC_CENTER\":[10,10,10]}");
+            Assert.That(paddedJson == "{\"INSTANCES_LENGTH\":2,\"POSITION\":{\"byteOffset\":0},\"EAST_NORTH_UP\":false,\"RTC_CENTER\":[10,10,10]}");
         }
     }
 }

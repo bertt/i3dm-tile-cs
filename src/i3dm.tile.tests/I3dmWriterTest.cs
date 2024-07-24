@@ -20,18 +20,18 @@ namespace i3dm.tile.tests
             var bytes = I3dmWriter.Write(i3dm);
 
             // assert
-            Assert.IsTrue(bytes.Length > 0);
+            Assert.That(bytes.Length > 0);
 
             // check padding rules
-            Assert.IsTrue(bytes.Length % 8 == 0);
+            Assert.That(bytes.Length % 8 == 0);
 
             // and try to recreate i3dm
             var stream = new MemoryStream(bytes);
             var i3dmRound = I3dmReader.Read(stream);
 
             // assert again
-            Assert.IsTrue(i3dmRound.Positions.Count == 2);
-            Assert.IsTrue(i3dmRound.GlbUrl.StartsWith(treeUrlGlb));
+            Assert.That(i3dmRound.Positions.Count == 2);
+            Assert.That(i3dmRound.GlbUrl.StartsWith(treeUrlGlb));
         }
 
         [Test]
@@ -46,11 +46,11 @@ namespace i3dm.tile.tests
 
             // assert
             var headerValidateErrors = i3dm.I3dmHeader.Validate();
-            Assert.IsTrue(headerValidateErrors.Count == 0);
+            Assert.That(headerValidateErrors.Count == 0);
 
             var i3dmActual = I3dmReader.Read(new MemoryStream(bytes));
-            Assert.IsTrue(i3dmActual.GlbUrl.StartsWith(treeUrlGlb));
-            Assert.IsTrue(i3dmActual.RtcCenter.Equals(i3dm.RtcCenter));
+            Assert.That(i3dmActual.GlbUrl.StartsWith(treeUrlGlb));
+            Assert.That(i3dmActual.RtcCenter.Equals(i3dm.RtcCenter));
         }
 
         private static I3dm.Tile.I3dm GetTestI3dm(string treeUrlGlb)
@@ -78,11 +78,11 @@ namespace i3dm.tile.tests
             var ms = new MemoryStream(i3dmBytes);
 
             var headerValidateErrors = i3dm.I3dmHeader.Validate();
-            Assert.IsTrue(headerValidateErrors.Count == 0);
+            Assert.That(headerValidateErrors.Count == 0);
 
             var i3dmActual = I3dmReader.Read(ms);
 
-            Assert.IsTrue(i3dmActual.RtcCenter.Equals(i3dm.RtcCenter));
+            Assert.That(i3dmActual.RtcCenter.Equals(i3dm.RtcCenter));
         }
 
         [Test]
@@ -103,16 +103,16 @@ namespace i3dm.tile.tests
 
             // asssert
             var headerValidateErrors = i3dm.I3dmHeader.Validate();
-            Assert.IsTrue(headerValidateErrors.Count == 0);
+            Assert.That(headerValidateErrors.Count == 0);
 
             var i3dmActual = I3dmReader.Read(new MemoryStream(bytes));
-            Assert.IsTrue(i3dmActual.Positions.Count == 2);
-            Assert.IsTrue(i3dmActual.Positions[0].Equals(pos1));
-            Assert.IsTrue(i3dmActual.Positions[1].Equals(pos2));
-            Assert.IsTrue(i3dmActual.BatchIds.Count == 2);
-            Assert.IsTrue(i3dmActual.BatchIds[0] == 9);
-            Assert.IsTrue(i3dmActual.BatchIds[1] == 11);
-            Assert.IsTrue(i3dmActual.FeatureTable.BatchIdOffset.componentType == "UNSIGNED_SHORT");
+            Assert.That(i3dmActual.Positions.Count == 2);
+            Assert.That(i3dmActual.Positions[0].Equals(pos1));
+            Assert.That(i3dmActual.Positions[1].Equals(pos2));
+            Assert.That(i3dmActual.BatchIds.Count == 2);
+            Assert.That(i3dmActual.BatchIds[0] == 9);
+            Assert.That(i3dmActual.BatchIds[1] == 11);
+            Assert.That(i3dmActual.FeatureTable.BatchIdOffset.componentType == "UNSIGNED_SHORT");
         }
 
         [Test]
@@ -135,18 +135,18 @@ namespace i3dm.tile.tests
 
             // assert
             var headerValidateErrors = i3dm.I3dmHeader.Validate();
-            Assert.IsTrue(headerValidateErrors.Count == 0);
+            Assert.That(headerValidateErrors.Count == 0);
 
             var i3dmActual = I3dmReader.Read(new MemoryStream(bytes));
-            Assert.IsTrue(i3dmActual.Positions.Count == 2);
-            Assert.IsTrue(i3dmActual.Positions[0].Equals(pos1));
-            Assert.IsTrue(i3dmActual.Positions[1].Equals(pos2));
-            Assert.IsTrue(i3dmActual.BatchIds.Count == 2);
-            Assert.IsTrue(i3dmActual.BatchIds[0] == 9);
-            Assert.IsTrue(i3dmActual.BatchIds[1] == 11);
-            Assert.IsTrue(i3dmActual.FeatureTable.BatchIdOffset.componentType == "UNSIGNED_SHORT");
-            Assert.IsTrue(i3dmActual.Scales[0] == 2);
-            Assert.IsTrue(i3dmActual.Scales[1] == 3);
+            Assert.That(i3dmActual.Positions.Count == 2);
+            Assert.That(i3dmActual.Positions[0].Equals(pos1));
+            Assert.That(i3dmActual.Positions[1].Equals(pos2));
+            Assert.That(i3dmActual.BatchIds.Count == 2);
+            Assert.That(i3dmActual.BatchIds[0] == 9);
+            Assert.That(i3dmActual.BatchIds[1] == 11);
+            Assert.That(i3dmActual.FeatureTable.BatchIdOffset.componentType == "UNSIGNED_SHORT");
+            Assert.That(i3dmActual.Scales[0] == 2);
+            Assert.That(i3dmActual.Scales[1] == 3);
         }
 
         [Test]
@@ -169,20 +169,20 @@ namespace i3dm.tile.tests
                 var bytes = I3dmWriter.Write(i3dm, type);
 
                 var headerValidateErrors = i3dm.I3dmHeader.Validate();
-                Assert.IsTrue(headerValidateErrors.Count == 0);
+                Assert.That(headerValidateErrors.Count == 0);
 
                 var i3dmActual = I3dmReader.Read(new MemoryStream(bytes));
-                Assert.IsTrue(i3dmActual.Positions.Count == 2);
-                Assert.IsTrue(i3dmActual.Positions[0].Equals(pos1));
-                Assert.IsTrue(i3dmActual.Positions[1].Equals(pos2));
-                Assert.IsTrue(i3dmActual.BatchIds.Count == 2);
-                Assert.IsTrue(i3dmActual.BatchIds[0] == 9);
-                Assert.IsTrue(i3dmActual.BatchIds[1] == 11);
-                Assert.IsTrue(i3dmActual.FeatureTable.BatchIdOffset.componentType == type);
+                Assert.That(i3dmActual.Positions.Count == 2);
+                Assert.That(i3dmActual.Positions[0].Equals(pos1));
+                Assert.That(i3dmActual.Positions[1].Equals(pos2));
+                Assert.That(i3dmActual.BatchIds.Count == 2);
+                Assert.That(i3dmActual.BatchIds[0] == 9);
+                Assert.That(i3dmActual.BatchIds[1] == 11);
+                Assert.That(i3dmActual.FeatureTable.BatchIdOffset.componentType == type);
 
                 var stream = new MemoryStream(i3dmActual.GlbData);
                 var glb = SharpGLTF.Schema2.ModelRoot.ReadGLB(stream);
-                Assert.IsTrue(glb.Asset.Version.Major == 2.0);
+                Assert.That(glb.Asset.Version.Major == 2.0);
             }
         }
 
@@ -194,13 +194,13 @@ namespace i3dm.tile.tests
             var i3dmOriginalfile = File.OpenRead(originalFile);
 
             var i3dmOriginal = I3dmReader.Read(i3dmOriginalfile);
-            Assert.IsTrue(i3dmOriginal.I3dmHeader.FeatureTableBinaryByteLength == 496);
-            Assert.IsTrue(i3dmOriginal.FeatureTable.BatchIdOffset.componentType == "UNSIGNED_BYTE");
+            Assert.That(i3dmOriginal.I3dmHeader.FeatureTableBinaryByteLength == 496);
+            Assert.That(i3dmOriginal.FeatureTable.BatchIdOffset.componentType == "UNSIGNED_BYTE");
             i3dmOriginal.FeatureTable.BatchIdOffset.componentType = "UNSIGNED_SHORT";
             var bytes = I3dmWriter.Write(i3dmOriginal);
 
             var headerValidateErrors = i3dmOriginal.I3dmHeader.Validate();
-            Assert.IsTrue(headerValidateErrors.Count == 0);
+            Assert.That(headerValidateErrors.Count == 0);
 
             // act
             var i3dmActualShort = I3dmReader.Read(new MemoryStream(bytes));
@@ -216,21 +216,21 @@ namespace i3dm.tile.tests
             var i3dmExpectedfile = File.OpenRead(@"testfixtures/barrel.i3dm");
             var i3dmExpected = I3dmReader.Read(i3dmExpectedfile);
             var positions = i3dmExpected.Positions;
-            Assert.IsTrue(positions.Count == 10);
-            Assert.IsTrue(i3dmExpected.FeatureTableJson == "{\"INSTANCES_LENGTH\":10,\"POSITION\":{\"byteOffset\":0},\"BATCH_ID\":{\"byteOffset\":120,\"componentType\":\"UNSIGNED_BYTE\"},\"NORMAL_UP\":{\"byteOffset\":132},\"NORMAL_RIGHT\":{\"byteOffset\":252},\"SCALE_NON_UNIFORM\":{\"byteOffset\":372}}       ");
+            Assert.That(positions.Count == 10);
+            Assert.That(i3dmExpected.FeatureTableJson == "{\"INSTANCES_LENGTH\":10,\"POSITION\":{\"byteOffset\":0},\"BATCH_ID\":{\"byteOffset\":120,\"componentType\":\"UNSIGNED_BYTE\"},\"NORMAL_UP\":{\"byteOffset\":132},\"NORMAL_RIGHT\":{\"byteOffset\":252},\"SCALE_NON_UNIFORM\":{\"byteOffset\":372}}       ");
 
             // act
             var bytes = I3dmWriter.Write(i3dmExpected);
 
             // assert
             var i3dmActual = I3dmReader.Read(new MemoryStream(bytes));
-            Assert.IsTrue(i3dmActual.Positions.Count == 10);
-            Assert.IsTrue(i3dmActual.FeatureTable.IsEastNorthUp == true);
-            Assert.IsTrue(i3dmActual.Positions[0].Equals(i3dmExpected.Positions[0]));
+            Assert.That(i3dmActual.Positions.Count == 10);
+            Assert.That(i3dmActual.FeatureTable.IsEastNorthUp == true);
+            Assert.That(i3dmActual.Positions[0].Equals(i3dmExpected.Positions[0]));
             var stream = new MemoryStream(i3dmActual.GlbData);
             var glb = SharpGLTF.Schema2.ModelRoot.ReadGLB(stream);
-            Assert.IsTrue(glb.Asset.Version.Major == 2.0);
-            Assert.IsTrue(glb.Asset.Generator == "obj2gltf");
+            Assert.That(glb.Asset.Version.Major == 2.0);
+            Assert.That(glb.Asset.Generator == "obj2gltf");
         }
 
         [Test]
@@ -240,7 +240,7 @@ namespace i3dm.tile.tests
             var i3dmExpectedfile = File.OpenRead(@"testfixtures/tree.i3dm");
             var i3dmExpected = I3dmReader.Read(i3dmExpectedfile);
             var positions = i3dmExpected.Positions;
-            Assert.IsTrue(positions.Count == 25);
+            Assert.That(positions.Count == 25);
 
             var treeGlb = File.ReadAllBytes(@"testfixtures/tree.glb");
             var i3dm = new I3dm.Tile.I3dm(positions, treeGlb);
@@ -253,19 +253,19 @@ namespace i3dm.tile.tests
             // assert
             var i3dmActual = I3dmReader.Read(new MemoryStream(bytes));
 
-            Assert.IsTrue(i3dmActual.I3dmHeader.Version == 1);
-            Assert.IsTrue(i3dmActual.I3dmHeader.Magic == "i3dm");
-            Assert.IsTrue(i3dmActual.I3dmHeader.GltfFormat == 1);
-            Assert.IsTrue(i3dmActual.I3dmHeader.BatchTableJsonByteLength == 88);
-            Assert.IsTrue(i3dmActual.I3dmHeader.FeatureTableJsonByteLength == 72); 
-            Assert.IsTrue(i3dmActual.I3dmHeader.BatchTableBinaryByteLength == 0);
-            Assert.IsTrue(i3dmActual.Positions.Count == 25);
-            Assert.IsTrue(i3dmActual.FeatureTable.IsEastNorthUp == true);
-            Assert.IsTrue(i3dmActual.Positions[0].Equals(new Vector3(1214947.2f, -4736379f, 4081540.8f)));
+            Assert.That(i3dmActual.I3dmHeader.Version == 1);
+            Assert.That(i3dmActual.I3dmHeader.Magic == "i3dm");
+            Assert.That(i3dmActual.I3dmHeader.GltfFormat == 1);
+            Assert.That(i3dmActual.I3dmHeader.BatchTableJsonByteLength == 88);
+            Assert.That(i3dmActual.I3dmHeader.FeatureTableJsonByteLength == 72);
+            Assert.That(i3dmActual.I3dmHeader.BatchTableBinaryByteLength == 0);
+            Assert.That(i3dmActual.Positions.Count == 25);
+            Assert.That(i3dmActual.FeatureTable.IsEastNorthUp == true);
+            Assert.That(i3dmActual.Positions[0].Equals(new Vector3(1214947.2f, -4736379f, 4081540.8f)));
             var stream = new MemoryStream(i3dmActual.GlbData);
             var glb = SharpGLTF.Schema2.ModelRoot.ReadGLB(stream);
-            Assert.IsTrue(glb.Asset.Version.Major == 2.0);
-            Assert.IsTrue(glb.Asset.Generator == "COLLADA2GLTF");
+            Assert.That(glb.Asset.Version.Major == 2.0);
+            Assert.That(glb.Asset.Generator == "COLLADA2GLTF");
         }
 
         [Test]
@@ -286,7 +286,7 @@ namespace i3dm.tile.tests
             var bytes = I3dmWriter.Write(i3dm);
 
             // assert
-            Assert.IsTrue(bytes.Length > 0);
+            Assert.That(bytes.Length > 0);
         }
 
 
@@ -311,7 +311,7 @@ namespace i3dm.tile.tests
             var bytes = I3dmWriter.Write(i3dm);
 
             // assert
-            Assert.IsTrue(bytes.Length > 0);
+            Assert.That(bytes.Length > 0);
         }
     }
 }

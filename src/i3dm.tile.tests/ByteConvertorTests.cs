@@ -13,7 +13,7 @@ namespace i3dm.tile.tests
 
             var res = ByteConvertor.ToBytes<byte>(input);
 
-            Assert.IsTrue(res.Length == 3);
+            Assert.That(res.Length == 3);
         }
 
         [Test]
@@ -23,7 +23,7 @@ namespace i3dm.tile.tests
 
             var res = ByteConvertor.ToBytes<ushort>(input);
 
-            Assert.IsTrue(res.Length == 6);
+            Assert.That(res.Length == 6);
         }
 
         [Test]
@@ -33,7 +33,7 @@ namespace i3dm.tile.tests
 
             var res = ByteConvertor.ToBytes<uint>(input);
 
-            Assert.IsTrue(res.Length == 12);
+            Assert.That(res.Length == 12);
         }
 
     }

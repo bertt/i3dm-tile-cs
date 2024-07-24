@@ -14,7 +14,7 @@ namespace i3dm.tile.tests
             var floats = new List<float> { f1, f2 };
 
             var bytes = floats.ToBytes();
-            Assert.IsTrue(bytes.Length == 8);
+            Assert.That(bytes.Length == 8);
         }
     }
 }

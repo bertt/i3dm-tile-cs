@@ -23,9 +23,9 @@ namespace i3dm.tile.tests
             var featureTable = JsonSerializer.Deserialize<FeatureTable>(featureTableJson,serializeOptions);
 
             // assert
-            Assert.IsTrue(featureTable != null);
-            Assert.IsTrue(featureTable.InstancesLength == 25);
-            Assert.IsTrue(featureTable.RtcCenter.Equals(new Vector3(1215013.8340490046f, -4736316.75897742f, 4081608.4380407534f)));
+            Assert.That(featureTable != null);
+            Assert.That(featureTable.InstancesLength == 25);
+            Assert.That(featureTable.RtcCenter.Equals(new Vector3(1215013.8340490046f, -4736316.75897742f, 4081608.4380407534f)));
         }
 
         [Test]
@@ -38,9 +38,9 @@ namespace i3dm.tile.tests
             var featureTable = JsonSerializer.Deserialize<FeatureTable>(featureTableJson);
 
             // assert
-            Assert.IsTrue(featureTable.InstancesLength == 25);
-            Assert.IsTrue(featureTable.IsEastNorthUp);
-            Assert.IsTrue(featureTable.PositionOffset.offset==0);
+            Assert.That(featureTable.InstancesLength == 25);
+            Assert.That(featureTable.IsEastNorthUp);
+            Assert.That(featureTable.PositionOffset.offset==0);
         }
 
         [Test]
@@ -61,9 +61,9 @@ namespace i3dm.tile.tests
             var featureTable = JsonSerializer.Deserialize<FeatureTable>(featureTableJson,serializeOptions);
 
             // assert
-            Assert.IsTrue(featureTable.InstancesLength == 2);
-            Assert.IsTrue(featureTable.IsEastNorthUp== true);
-            Assert.IsTrue(featureTable.PositionOffset.offset== 0);
+            Assert.That(featureTable.InstancesLength == 2);
+            Assert.That(featureTable.IsEastNorthUp== true);
+            Assert.That(featureTable.PositionOffset.offset== 0);
         }
 
         [Test]
@@ -81,7 +81,7 @@ namespace i3dm.tile.tests
 
             // Assert
             // should be 4 bytes each value, 2 positions, 3 values (x, y, z) each
-            Assert.IsTrue(bytes.Length == 2*3*4);
+            Assert.That(bytes.Length == 2*3*4);
         }
     }
 }

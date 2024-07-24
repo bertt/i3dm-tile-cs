@@ -15,11 +15,11 @@ namespace i3dm.tile.tests
             var i3dmAfterfile = File.OpenRead(@"testfixtures/tree.i3dm");
             var treeI3dmAfter = I3dmReader.Read(i3dmAfterfile);
 
-            Assert.IsTrue(treeI3dm.FeatureTableBinary.Length == treeI3dmAfter.FeatureTableBinary.Length);
+            Assert.That(treeI3dm.FeatureTableBinary.Length == treeI3dmAfter.FeatureTableBinary.Length);
 
             for(var i=0;i< treeI3dmAfter.FeatureTableBinary.Length; i++)
             {
-                Assert.IsTrue(treeI3dm.FeatureTableBinary[i] == treeI3dmAfter.FeatureTableBinary[i]);
+                Assert.That(treeI3dm.FeatureTableBinary[i] == treeI3dmAfter.FeatureTableBinary[i]);
             }
         }
     }
