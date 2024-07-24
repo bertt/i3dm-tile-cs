@@ -12,7 +12,15 @@ namespace i3dm.tile.tests
         int expectedVersionHeader = 1;
 
         [Test]
-        public void Test1232()
+        public void ReadWithExternalUri()
+        {
+            var i3dmfile = File.OpenRead(@"testfixtures/external_uri.i3dm");
+            var i3dm = I3dmReader.Read(i3dmfile);
+            Assert.That(i3dm.Uri == "box1.glb");
+        }
+
+        [Test]
+        public void ReadWithPadding()
         {
             var i3dmfile = File.OpenRead(@"testfixtures/i3dm.withpadding.i3dm");
             var i3dm = I3dmReader.Read(i3dmfile);
